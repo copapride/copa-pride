@@ -400,13 +400,47 @@ window.LIGA_DATA = {
       tarjetas: [] },
 
     // ----- Fecha 2 (sorteo del 15/10) -----
-    { id: "m9", fase: "Zona", zona: "A", fecha: "2026-10-24", hora: "14:00", cancha: "Cancha 1",
-      local: "e1", visitante: "e6", golesLocal: null, golesVisitante: null,
-      goles: [], tarjetas: [] },
+    { id: "m9", fase: "Zona", manual: true, zona: "A", fecha: "2026-10-24", hora: "14:00", cancha: "Cancha 1",
+      local: "e1", visitante: "e6", golesLocal: 9, golesVisitante: 4,
+      veedor: "Brian", veedorEq: "e14", mvp: "p5",   // planilla en papel
+      goles: [
+        { j: "p2", e: "e1" },
+        { j: "p5", e: "e1" },
+        { j: "p5", e: "e1" },
+        { j: "p5", e: "e1" },
+        { j: "p5", e: "e1" },
+        { j: "p5", e: "e1" },
+        { j: "p200", e: "e1" },
+        { j: "p200", e: "e1" },
+        { j: "p200", e: "e1" },
+        { j: "p112", e: "e6" },
+        { j: "p112", e: "e6" },
+        { j: "p114", e: "e6" },
+        { j: "p114", e: "e6" }
+      ],
+      tarjetas: [
+        { j: "p5", e: "e1", t: "A" },
+        { j: "p200", e: "e1", t: "A" }
+      ] },
 
-    { id: "m10", fase: "Zona", zona: "A", fecha: "2026-10-24", hora: "14:00", cancha: "Cancha 2",
-      local: "e2", visitante: "e7", golesLocal: null, golesVisitante: null,
-      goles: [], tarjetas: [] },
+    { id: "m10", fase: "Zona", manual: true, zona: "A", fecha: "2026-10-24", hora: "14:00", cancha: "Cancha 2",
+      local: "e2", visitante: "e7", golesLocal: 8, golesVisitante: 1,
+      veedor: "Nes", veedorEq: "e10", mvp: "p117",   // planilla en papel
+      goles: [
+        { j: "p8", e: "e2" },
+        { j: "p10", e: "e2" },
+        { j: "p10", e: "e2" },
+        { j: "p117", e: "e2" },
+        { j: "p117", e: "e2" },
+        { j: "p117", e: "e2" },
+        { j: "p117", e: "e2" },
+        { j: "p120", e: "e2" },
+        { j: "p33", e: "e7" }
+      ],
+      tarjetas: [
+        { j: "p119", e: "e2", t: "A" },
+        { j: "p34", e: "e7", t: "A" }
+      ] },
 
     { id: "m11", fase: "Zona", manual: true, zona: "B", fecha: "2026-10-24", hora: "14:00", cancha: "Cancha 3",
       local: "e5", visitante: "e12", golesLocal: 4, golesVisitante: 1,
@@ -427,10 +461,20 @@ window.LIGA_DATA = {
       veedor: "David", veedorEq: "e5", mvp: "p64",   // figura: Fabián Torres (el resultado sale de la carga en vivo)
       goles: [], tarjetas: [] },
 
-    { id: "m13", fase: "Zona", zona: "C", fecha: "2026-10-24", hora: "15:00", cancha: "Cancha 2",
-      local: "e10", visitante: "e8", golesLocal: null, golesVisitante: null,
-      veedor: "Julio", veedorEq: "e6",
-      goles: [], tarjetas: [] },
+    { id: "m13", fase: "Zona", manual: true, zona: "C", fecha: "2026-10-24", hora: "15:00", cancha: "Cancha 2",
+      local: "e10", visitante: "e8", golesLocal: 1, golesVisitante: 5,
+      veedor: "Julio", veedorEq: "e6", mvp: "p124",   // planilla en papel
+      goles: [
+        { j: "p49", e: "e10" },
+        { j: "p124", e: "e8" },
+        { j: "p124", e: "e8" },
+        { j: "p124", e: "e8" },
+        { j: "p126", e: "e8" },
+        { j: "p126", e: "e8" }
+      ],
+      tarjetas: [
+        { j: "p127", e: "e8", t: "A" }
+      ] },
 
     { id: "m14", fase: "Zona", zona: "C", fecha: "2026-10-24", hora: "15:00", cancha: "Cancha 3",
       local: "e9", visitante: "e11", golesLocal: 5, golesVisitante: 0,
@@ -449,10 +493,20 @@ window.LIGA_DATA = {
       veedor: "Madi", veedorEq: "e2",
       goles: [], tarjetas: [] },
 
-    { id: "m16", fase: "Zona", zona: "B", fecha: "2026-10-24", hora: "16:00", cancha: "Cancha 3",
-      local: "e3", visitante: "e14", golesLocal: null, golesVisitante: null,
-      veedor: "Juanpy / Matute", veedorEq: "e11",
-      goles: [], tarjetas: [] },
+    { id: "m16", fase: "Zona", manual: true, zona: "B", fecha: "2026-10-24", hora: "16:00", cancha: "Cancha 3",
+      local: "e3", visitante: "e14", golesLocal: 3, golesVisitante: 5,
+      veedor: "Juanpy / Matute", veedorEq: "e11", mvp: "p69",   // planilla en papel
+      goles: [
+        { j: "p302", e: "e3" },
+        { j: "p302", e: "e3" },
+        { j: "p309", e: "e3" },
+        { j: "p69", e: "e14" },
+        { j: "p69", e: "e14" },
+        { j: "p210", e: "e14" },
+        { j: "p212", e: "e14" },
+        { j: "p212", e: "e14" }
+      ],
+      tarjetas: [] },
 
     // ----- Fecha 3 (sorteo del 15/10) -----
     { id: "m17", fase: "Zona", zona: "B", fecha: "2026-10-31", hora: "14:00", cancha: "Cancha 1",
