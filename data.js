@@ -424,7 +424,7 @@ window.LIGA_DATA = {
 
     { id: "m12", fase: "Zona", zona: "D", fecha: "2026-10-24", hora: "15:00", cancha: "Cancha 1",
       local: "e13", visitante: "e15", golesLocal: null, golesVisitante: null,
-      veedor: "David", veedorEq: "e5",
+      veedor: "David", veedorEq: "e5", mvp: "p64",   // figura: Fabián Torres (el resultado sale de la carga en vivo)
       goles: [], tarjetas: [] },
 
     { id: "m13", fase: "Zona", zona: "C", fecha: "2026-10-24", hora: "15:00", cancha: "Cancha 2",
