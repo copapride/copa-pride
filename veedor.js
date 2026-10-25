@@ -216,13 +216,13 @@
     }
     detenerLista();
     const x = r.partido;
-    M = { id, p, mvp: x.mvp || "", estado: x.estado || "EN_JUEGO", goles: x.goles || [], tarjetas: x.tarjetas || [],
+    M = { id, p, mvp: x.mvp || "", estado: x.estado || "EN_JUEGO", goles: x.goles || [], tarjetas: x.tarjetas || [], faltas: faltasDe(x.faltas),
           pl: x.pl === "" || x.pl == null ? null : Number(x.pl), pv: x.pv === "" || x.pv == null ? null : Number(x.pv), guardado: "ok" };
     // Si quedó algo sin enviar en este celular (se cortó la conexión), se recupera.
     try {
       const d = JSON.parse(ls.get("cp_draft_" + id) || "null");
       if (d && d.sent === false && d.nombre === S.nombre && d.disp === S.disp) {
-        Object.assign(M, { estado: d.estado, goles: d.goles, tarjetas: d.tarjetas, pl: d.pl, pv: d.pv, mvp: d.mvp || M.mvp });
+        Object.assign(M, { estado: d.estado, goles: d.goles, tarjetas: d.tarjetas, pl: d.pl, pv: d.pv, mvp: d.mvp || M.mvp, faltas: faltasDe(d.faltas || M.faltas) });
         guardarYa();
       }
     } catch (e) { /* borrador roto: se ignora */ }
@@ -273,6 +273,31 @@
     }).join("") || `<li class="vacio-ev">Todavía no hay goles ni tarjetas.</li>`;
   }
 
+  /* ---------------- faltas acumuladas (por equipo y por tiempo) ----------------
+     Reglamento: a la 5ª falta el árbitro avisa; desde la 6ª, cada falta es tiro libre. */
+  function faltasDe(f) {
+    const n = (x) => Math.max(0, Math.min(30, parseInt(x, 10) || 0));
+    if (Array.isArray(f) && f.length === 4) return { L: [n(f[0]), n(f[1])], V: [n(f[2]), n(f[3])] };
+    if (f && f.L && f.V) return { L: [n(f.L[0]), n(f.L[1])], V: [n(f.V[0]), n(f.V[1])] };
+    return { L: [0, 0], V: [0, 0] };
+  }
+  const faltasArr = () => [M.faltas.L[0], M.faltas.L[1], M.faltas.V[0], M.faltas.V[1]];
+  function faltasFila(lado, t) {
+    const c = M.faltas[lado][t], fin = M.estado === "FINAL";
+    let h = "";
+    for (let i = 1; i <= 6; i++) {
+      const on = c >= i, cls = i === 6 ? "f6" : i === 5 ? "f5" : "";
+      h += `<button type="button" class="vfal ${cls}${on ? " on" : ""}" data-act="fal-${lado}-${t}-${i}" ${fin ? "disabled" : ""} aria-label="Falta ${i}">${i === 6 && c > 6 ? "+" + (c - 5) : i}</button>`;
+    }
+    const extra = c >= 6 ? `<button type="button" class="vfal mas" data-act="fal-${lado}-${t}-mas" ${fin ? "disabled" : ""} aria-label="Una falta más">+1</button>` : "";
+    const aviso = c >= 6 ? `<span class="vfal-av tl">Tiro libre</span>` : c === 5 ? `<span class="vfal-av">Aviso del árbitro</span>` : "";
+    return `<div class="vfal-fila"><span class="vfal-t">${t === 0 ? "1T" : "2T"}</span><div class="vfal-bx">${h}${extra}</div><b class="vfal-n">${c}</b>${aviso}</div>`;
+  }
+  function faltasHtml() {
+    const eq = (lado) => `<div class="vfal-eq"><h4>${esc(nombreEq(lado))}</h4>${faltasFila(lado, 0)}${faltasFila(lado, 1)}</div>`;
+    return `<section class="vcaja"><h3>Faltas</h3><p class="vtxt">Tocá un casillero por cada falta. A la 5ª avisa el árbitro; desde la 6ª es tiro libre. Para corregir, tocá de nuevo la última.</p>${eq("L")}${eq("V")}</section>`;
+  }
+
   function penalesHtml() {
     if (!esPlayoff() || !empate() || M.estado === "FINAL" && M.pl == null) return "";
     const pl = M.pl == null ? 0 : M.pl, pv = M.pv == null ? 0 : M.pv;
@@ -297,6 +322,7 @@
       ${final ? `<p class="vfinal">Partido finalizado ✓ (${cuenta("L")} - ${cuenta("V")}${M.pl != null && M.pv != null ? `, penales ${M.pl} - ${M.pv}` : ""})</p>` : ""}
       <div class="vpaneles">${panelEquipo("L")}${panelEquipo("V")}</div>
       ${penalesHtml()}
+      ${faltasHtml()}
       <section class="vcaja"><h3>⭐ Jugador del partido</h3><p class="vtxt">${M.mvp ? `<b>${jugadorTxt(M.mvp)}</b>` : "Todavía no elegido. Los equipos lo eligen al terminar: anotalo antes de finalizar."}</p>
         <button type="button" class="vbtn" data-act="mvp" ${final ? "disabled" : ""}>${M.mvp ? "Cambiar jugador del partido" : "Elegir jugador del partido"}</button></section>
       <section class="vcaja"><h3>Qué pasó</h3><ul class="vev">${eventos()}</ul></section>
@@ -359,11 +385,11 @@
   function snapshot() {
     const gl = cuenta("L"), gv = cuenta("V");
     const pen = esPlayoff() && gl === gv && M.pl != null && M.pv != null;
-    return { id: M.id, estado: M.estado, gl, gv, pl: pen ? M.pl : null, pv: pen ? M.pv : null, goles: M.goles, tarjetas: M.tarjetas, mvp: M.mvp || "" };
+    return { id: M.id, estado: M.estado, gl, gv, pl: pen ? M.pl : null, pv: pen ? M.pv : null, goles: M.goles, tarjetas: M.tarjetas, mvp: M.mvp || "", faltas: faltasArr() };
   }
 
   function guardarBorrador(sent) {
-    ls.set("cp_draft_" + M.id, JSON.stringify({ nombre: S.nombre, disp: S.disp, sent, estado: M.estado, goles: M.goles, tarjetas: M.tarjetas, pl: M.pl, pv: M.pv, mvp: M.mvp || "" }));
+    ls.set("cp_draft_" + M.id, JSON.stringify({ nombre: S.nombre, disp: S.disp, sent, estado: M.estado, goles: M.goles, tarjetas: M.tarjetas, pl: M.pl, pv: M.pv, mvp: M.mvp || "", faltas: faltasArr() }));
   }
 
   function cambio() { guardarBorrador(false); pintarPartido(); guardarYa(); }
@@ -438,6 +464,12 @@
       if (M.pl == null) { M.pl = 0; M.pv = 0; }
       const k = m[1] === "L" ? "pl" : "pv";
       M[k] = Math.max(0, Math.min(99, M[k] + (m[2] === "+" ? 1 : -1)));
+      return cambio();
+    }
+    if ((m = /^fal-(L|V)-(0|1)-(\d+|mas)$/.exec(a))) {
+      const arr = M.faltas[m[1]], t = Number(m[2]);
+      if (m[3] === "mas") arr[t] = Math.min(30, arr[t] + 1);
+      else { const i = Number(m[3]); arr[t] = (i === 6 && arr[t] > 6) ? arr[t] - 1 : arr[t] === i ? i - 1 : i; }
       return cambio();
     }
     if (a === "mvp") return selectorMvp();

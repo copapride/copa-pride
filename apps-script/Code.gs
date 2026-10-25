@@ -25,7 +25,7 @@ var HOJA_PARTIDOS = "Partidos";
 var HOJA_CONFIG = "Config";
 var HOJA_PINS = "PINs";
 var COLUMNAS = ["id", "estado", "golesLocal", "golesVisitante", "penLocal", "penVisitante",
-                "goles", "tarjetas", "veedor", "lockHasta", "actualizado", "veedorEq", "disp", "mvp"];
+                "goles", "tarjetas", "veedor", "lockHasta", "actualizado", "veedorEq", "disp", "mvp", "faltas"];
 var MIN_ANTES = 10;           // el PIN de un partido se activa tantos minutos antes de su hora
 var MIN_DESPUES = 80;         // y vence tantos minutos después de su hora de inicio (14:00 -> 15:20)
 var MIN_PRUEBA = 240;         // duración de los PINs en una jornada de PRUEBA
@@ -327,7 +327,7 @@ function err_(msg, codigo) { return { ok: false, error: msg, codigo: codigo || "
 function publico_(r) {
   return {
     estado: r.estado, gl: r.golesLocal, gv: r.golesVisitante, pl: r.penLocal, pv: r.penVisitante,
-    goles: parse_(r.goles), tarjetas: parse_(r.tarjetas), veedor: r.veedor || "", veedorEq: r.veedorEq || "", mvp: r.mvp || "",
+    goles: parse_(r.goles), tarjetas: parse_(r.tarjetas), veedor: r.veedor || "", veedorEq: r.veedorEq || "", mvp: r.mvp || "", faltas: parse_(r.faltas),
     lock: Number(r.lockHasta) > ahora_().getTime(), t: r.actualizado
   };
 }
@@ -460,6 +460,13 @@ function guardar_(d, v) {
   var mvp = (d.mvp === undefined || d.mvp === null) ? null : String(d.mvp);
   if (mvp !== null && !/^[A-Za-z0-9_-]{0,20}$/.test(mvp)) return err_("Jugador del partido inválido.");
 
+  // Faltas (opcional): [local 1T, local 2T, visitante 1T, visitante 2T].
+  var faltas = null;
+  if (d.faltas !== undefined && d.faltas !== null) {
+    if (!Array.isArray(d.faltas) || d.faltas.length !== 4) return err_("Faltas inválidas.");
+    faltas = d.faltas.map(function (x) { var n = parseInt(x, 10); return isNaN(n) ? 0 : Math.max(0, Math.min(30, n)); });
+  }
+
   var mapa = leerPartidos_(), r = mapa[id];
   var mio = r && (r.disp ? String(r.disp) === String(d.disp) : r.veedor === nombre);
   if (!mio)
@@ -470,6 +477,7 @@ function guardar_(d, v) {
   r.penLocal = pl === null ? "" : pl; r.penVisitante = pv === null ? "" : pv;
   r.goles = JSON.stringify(goles); r.tarjetas = JSON.stringify(tarjetas);
   if (mvp !== null) r.mvp = mvp;
+  if (faltas !== null) r.faltas = JSON.stringify(faltas);
   r.lockHasta = estado === "FINAL" ? 0 : ahora_().getTime() + MINUTOS_BLOQUEO * 60000;
   r.actualizado = ahora_().toISOString();
   escribirFila_(r, r._fila);

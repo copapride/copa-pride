@@ -87,3 +87,22 @@ body.vee{padding-bottom:3rem}
 .vbtn.az{background:#2f7fe0;color:#fff}
 .vcaja select{display:block;width:100%;margin-top:.35rem;background:var(--negro-3);border:1px solid var(--linea);color:var(--blanco);border-radius:12px;padding:.9rem 1rem;font-size:1.15rem;font-family:inherit}
 .vcaja select:focus{outline:2px solid var(--oro);border-color:var(--oro)}
+
+/* Faltas: 5 casilleros que se ponen verdes; el 6º (tiro libre) se distingue en rojo */
+.vfal-eq{margin-top:.8rem}
+.vfal-eq h4{font-size:.95rem;margin:0 0 .35rem;color:var(--blanco)}
+.vfal-fila{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem;margin:.35rem 0}
+.vfal-t{font-size:.72rem;font-weight:800;letter-spacing:.1em;color:var(--oro);min-width:1.8rem}
+.vfal-bx{display:flex;gap:.3rem;flex-wrap:nowrap}
+.vfal{width:40px;height:42px;border-radius:10px;border:2px solid var(--linea);background:var(--negro-3);color:var(--gris);font-weight:800;font-family:inherit;font-size:.95rem;cursor:pointer;touch-action:manipulation}
+.vfal.on{background:#2fa84f;border-color:#2fa84f;color:#fff}
+.vfal.f5{border-color:#f2c200}
+.vfal.f5.on{background:#2fa84f;border-color:#f2c200;box-shadow:0 0 0 2px rgba(242,194,0,.35)}
+.vfal.f6{border-color:#d9423b;color:#ffb3ae}
+.vfal.f6.on{background:#d9423b;border-color:#d9423b;color:#fff}
+.vfal.mas{width:auto;padding:0 .8rem;border-color:#d9423b;color:#ffb3ae}
+.vfal:disabled{opacity:.6;cursor:not-allowed}
+.vfal-n{font-family:var(--display);font-size:1.5rem;color:var(--oro-claro);min-width:1.6rem;text-align:center}
+.vfal-av{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#f2c200}
+.vfal-av.tl{color:#ff8a80}
+@media (max-width:380px){.vfal{width:35px;height:40px}}
