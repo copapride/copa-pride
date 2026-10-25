@@ -828,3 +828,5 @@ html{scrollbar-width:thin;scrollbar-color:#3a352e #0b0a09}
 .gfx-foto{display:block;width:112px;height:112px;object-fit:cover;border-radius:50%;border:3px solid #fff;box-shadow:0 10px 22px rgba(0,0,0,.55)}
 .gfx-esc.con-foto .badge{position:absolute;right:-6px;bottom:-4px;width:40px;height:40px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.6))}
 @media (max-width:560px){.gfx-foto{width:80px;height:80px}.gfx-esc.con-foto .badge{width:30px;height:30px}}
+
+.tit-fecha{font-family:var(--texto);font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--oro-t);background:var(--hoja);border:1px solid var(--linea);border-radius:999px;padding:.25rem .7rem;white-space:nowrap}

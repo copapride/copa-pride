@@ -562,7 +562,12 @@
         <div><span class="kicker">${esc(c.copa)}</span><h3>${e ? esc(e.nombre) : "Por definirse"}</h3></div></div>`;
     }).join("");
 
-    const ult = ps.filter(jugado).sort(porFecha).reverse().slice(0, 6);
+    // Últimos resultados: solo la última fecha que tiene partidos terminados (no se mezclan fechas).
+    const diaUlt = ps.filter(jugado).map((p) => p.fecha).filter(Boolean).sort().pop() || "";
+    const ult = ps.filter((p) => jugado(p) && p.fecha === diaUlt).sort((a, b) => porFecha(a, b) || natural(a.cancha, b.cancha));
+    const diasZona = [...new Set(ps.filter((p) => p.fase === "Zona").map((p) => p.fecha).filter(Boolean))].sort();
+    const nFecha = diasZona.indexOf(diaUlt);
+    const etqUlt = diaUlt ? `${nFecha >= 0 ? "Fecha " + (nFecha + 1) + " · " : ""}${fechaCorta(diaUlt)}` : "";
     const vivos = ps.filter(enVivo).sort(porFecha);
 
     const hero = heroInicio(fechas, rango, canchas.length, sede);
@@ -575,7 +580,7 @@
     return `${hero}
       ${miEquipoHtml()}
       ${vivos.length ? `<h2 class="titulo-sec">En vivo ahora</h2><div class="res-grid">${vivos.map(tarjetaLista).join("")}</div>` : ""}
-      <h2 class="titulo-sec">Últimos resultados</h2>
+      <h2 class="titulo-sec">Últimos resultados${etqUlt ? ` <span class="tit-fecha">${esc(etqUlt)}</span>` : ""}</h2>
       ${ult.length ? `<div class="res-grid">${ult.map(tarjetaResultado).join("")}</div>` : vacio("Todavía no hay resultados cargados.")}
       ${llaves().some((c) => campeonDe(c)) ? `<h2 class="titulo-sec">Campeones</h2><div class="camp-grid">${camps}</div>` : ""}
       ${sedeHtml}`;
