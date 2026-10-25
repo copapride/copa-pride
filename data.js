@@ -77,7 +77,7 @@ window.LIGA_DATA = {
   // ---------------------------------------------------------------
   jugadores: [
     { id: "p300", nombre: "Luis Alberto Guantay", equipo: "e3", foto: "" },
-    { id: "p301", nombre: "Elias Ezequiel Ale", equipo: "e3", foto: "" },
+    { id: "p301", nombre: "Elias Ezequiel Ale", equipo: "e3", foto: "", arquero: true },
     { id: "p302", nombre: "Rolando Zena", equipo: "e3", foto: "" },
     { id: "p303", nombre: "Roberto Ricardo Rojas", equipo: "e3", foto: "" },
     { id: "p304", nombre: "Alberto Vallejos", equipo: "e3", foto: "" },
@@ -93,7 +93,7 @@ window.LIGA_DATA = {
     { id: "p321", nombre: "Marcos Torres", equipo: "e4", foto: "" },
     { id: "p322", nombre: "Derlis Rodas", equipo: "e4", foto: "" },
     { id: "p323", nombre: "Sergio Roldan", equipo: "e4", foto: "" },
-    { id: "p324", nombre: "Javier Estigarribia", equipo: "e4", foto: "" },
+    { id: "p324", nombre: "Javier Estigarribia", equipo: "e4", foto: "", arquero: true },
     { id: "p325", nombre: "Milton Rivas", equipo: "e4", foto: "" },
     { id: "p326", nombre: "German Medina", equipo: "e4", foto: "" },
     { id: "p327", nombre: "Diego Ozuna", equipo: "e4", foto: "" },
@@ -130,7 +130,7 @@ window.LIGA_DATA = {
     { id: "p38", nombre: "Alfredo Jose Rivera Viloria", equipo: "e8", foto: "" },
     { id: "p39", nombre: "Nicolas Cortez", equipo: "e8", foto: "" },
     { id: "p40", nombre: "Gabriel Eduardo Baez", equipo: "e8", foto: "" },
-    { id: "p41", nombre: "Franco Bruno Di Benedetto", equipo: "e9", foto: "" },
+    { id: "p41", nombre: "Franco Bruno Di Benedetto", equipo: "e9", foto: "", arquero: true },
     { id: "p42", nombre: "Matías Hernán Saavedra", equipo: "e9", foto: "" },
     { id: "p43", nombre: "Josias Leonel Sotelo", equipo: "e9", foto: "" },
     { id: "p44", nombre: "Federico Gallardo", equipo: "e9", foto: "" },
@@ -142,7 +142,7 @@ window.LIGA_DATA = {
     { id: "p50", nombre: "Felipe Pereyra", equipo: "e10", foto: "" },
     { id: "p51", nombre: "Matias Scavone", equipo: "e11", foto: "" },
     { id: "p52", nombre: "Juan Pablo Artin", equipo: "e11", foto: "" },
-    { id: "p53", nombre: "Santiago Morrone", equipo: "e11", foto: "" },
+    { id: "p53", nombre: "Santiago Morrone", equipo: "e11", foto: "", arquero: true },
     { id: "p54", nombre: "Dario Coronel", equipo: "e11", foto: "" },
     { id: "p55", nombre: "Rodrigo Gonzalez", equipo: "e11", foto: "" },
     { id: "p56", nombre: "Gustavo Alexis Reyes", equipo: "e12", foto: "" },
@@ -159,7 +159,7 @@ window.LIGA_DATA = {
     { id: "p67", nombre: "Nazareno Paredes", equipo: "e14", foto: "" },
     { id: "p68", nombre: "Cristian Chaile", equipo: "e14", foto: "" },
     { id: "p69", nombre: "Junior Villalba", equipo: "e14", foto: "" },
-    { id: "p70", nombre: "Agustin Ramirez", equipo: "e14", foto: "" },
+    { id: "p70", nombre: "Agustin Ramirez", equipo: "e14", foto: "", arquero: true },
     { id: "p81", nombre: "Emiliano Baez", equipo: "e15", foto: "" },
     { id: "p82", nombre: "Cristian Sebastian Caporaso", equipo: "e15", foto: "" },
     { id: "p83", nombre: "Miguel Mariano Cejas", equipo: "e15", foto: "" },
@@ -176,7 +176,7 @@ window.LIGA_DATA = {
     { id: "p94", nombre: "Walter Carricondo", equipo: "e15", foto: "" },
     { id: "p95", nombre: "Lucas Sosa", equipo: "e5", foto: "" },
     { id: "p96", nombre: "Miguel Villan", equipo: "e5", foto: "" },
-    { id: "p97", nombre: "Hernan Varela", equipo: "e5", foto: "" },
+    { id: "p97", nombre: "Hernan Varela", equipo: "e5", foto: "", arquero: true },
     { id: "p98", nombre: "Jesus Caceres", equipo: "e5", foto: "" },
     { id: "p99", nombre: "David Alexis Noval", equipo: "e5", foto: "" },
     { id: "p100", nombre: "Amadeo Benjamin Segundo", equipo: "e5", foto: "" },
@@ -202,7 +202,7 @@ window.LIGA_DATA = {
     { id: "p210", nombre: "Nahuel Correa", equipo: "e14", foto: "" },
     { id: "p211", nombre: "Gustavo Fabian", equipo: "e14", foto: "" },
     { id: "p212", nombre: "Nicolas Sequeira", equipo: "e14", foto: "" },
-    { id: "p115", nombre: "Demian Mareco", equipo: "e1", foto: "" },
+    { id: "p115", nombre: "Demian Mareco", equipo: "e1", foto: "", arquero: true },
     { id: "p116", nombre: "Julián Madoz", equipo: "e2", foto: "" },
     { id: "p117", nombre: "Gustavo Nievas", equipo: "e2", foto: "" },
     { id: "p118", nombre: "Ramón Gonzaléz", equipo: "e2", foto: "" },
@@ -227,7 +227,7 @@ window.LIGA_DATA = {
     { id: "p136", nombre: "Lucas Gaston", equipo: "e12", foto: "" },
     { id: "p137", nombre: "Juan Manuel Gaitan", equipo: "e12", foto: "" },
     { id: "p138", nombre: "Aldo Tolosa", equipo: "e12", foto: "" },
-    { id: "p139", nombre: "Mariano Ledesma", equipo: "e12", foto: "" },
+    { id: "p139", nombre: "Mariano Ledesma", equipo: "e12", foto: "", arquero: true },
     { id: "p342", nombre: "Alejo Manuel Marcos", equipo: "e12", foto: "", agregado: "2026-10-23" },   // agregado ya empezada la Copa (cupo 1 de 2)
     { id: "p140", nombre: "Juan Manuel Menéndez", equipo: "e13", foto: "" },
     { id: "p141", nombre: "Marcos Telleldin", equipo: "e13", foto: "" },
@@ -240,9 +240,9 @@ window.LIGA_DATA = {
     { id: "p148", nombre: "Sidney Scott Rinaldi", equipo: "e16", foto: "" },
     { id: "p149", nombre: "Emanuel Acevedo", equipo: "e16", foto: "" },
     { id: "p150", nombre: "Leandro Agustín Sanchez", equipo: "e16", foto: "" },
-    { id: "p76", nombre: "Lucas Javier Paintner", equipo: "e16", foto: "" },
+    { id: "p76", nombre: "Lucas Javier Paintner", equipo: "e16", foto: "", arquero2: true },
     { id: "p77", nombre: "Agustin Garcin", equipo: "e16", foto: "" },
-    { id: "p78", nombre: "Fabian Eduardo Espindola", equipo: "e16", foto: "" },
+    { id: "p78", nombre: "Fabian Eduardo Espindola", equipo: "e16", foto: "", arquero: true },
     { id: "p79", nombre: "Diego Miño", equipo: "e16", foto: "" },
     { id: "p80", nombre: "Sebastián Figola", equipo: "e16", foto: "" }
   ],
@@ -456,10 +456,16 @@ window.LIGA_DATA = {
         { j: "p95", e: "e5", t: "A" }
       ] },
 
-    { id: "m12", fase: "Zona", zona: "D", fecha: "2026-10-24", hora: "15:00", cancha: "Cancha 1",
-      local: "e13", visitante: "e15", golesLocal: null, golesVisitante: null,
-      veedor: "David", veedorEq: "e5", mvp: "p64",   // figura: Fabián Torres (el resultado sale de la carga en vivo)
-      goles: [], tarjetas: [] },
+    { id: "m12", fase: "Zona", manual: true, zona: "D", fecha: "2026-10-24", hora: "15:00", cancha: "Cancha 1",
+      local: "e13", visitante: "e15", golesLocal: 1, golesVisitante: 0,
+      veedor: "David", veedorEq: "e5", mvp: "p64",   // carga en vivo, con la amarilla de Tigres corregida según la planilla (Baez)
+      goles: [
+        { j: "p64", e: "e13" }
+      ],
+      tarjetas: [
+        { j: "p145", e: "e13", t: "A" },
+        { j: "p81", e: "e15", t: "A" }
+      ] },
 
     { id: "m13", fase: "Zona", manual: true, zona: "C", fecha: "2026-10-24", hora: "15:00", cancha: "Cancha 2",
       local: "e10", visitante: "e8", golesLocal: 1, golesVisitante: 5,
