@@ -293,6 +293,7 @@
 
   function fairPlay() {
     const f = {};
+    equipos().forEach((e) => { f[e.id] = { id: e.id, am: 0, ro: 0, az: 0 }; });   // los 16 equipos, aunque no tengan tarjetas
     partidosEst().forEach((p) => {
       [p.local, p.visitante].forEach((id) => { if (!f[id]) f[id] = { id, am: 0, ro: 0, az: 0 }; });
       (p.tarjetas || []).forEach((t) => {
@@ -877,17 +878,18 @@
         return `<li><span class="rk">${x.rank}</span><div class="li-main"><span>${arqueroDe(x.id)}</span><small>${eqLink(e)}</small></div>${barra((1 - x.prom / (peor * 1.2)) * 100)}<div class="vl-n"><b>${promTxt(x.prom)}</b><small>${x.gr} GR · ${x.pj} PJ</small></div></li>`; }).join("")}</ol>` : vacio("Sin datos todavía.");
       nota = "Promedio = goles recibidos por el equipo ÷ partidos jugados; gana el más bajo y el premio es para el arquero titular del equipo (el que más partidos atajó). Cuenta todo el torneo. No cuentan los penales de definición ni los partidos por W.O., y los equipos que abandonan no figuran. Si empatan, va primero el que llegó más lejos y después el que recibió menos goles en total.";
     } else if (tab === "fairplay") {
-      const fp = rankear(fairPlay().slice(0, 10), (x) => x.pts);
+      const fp = rankear(fairPlay().filter((x) => equipo(x.id)), (x) => x.pts);
       cuerpo = fp.length ? `<ol class="rank fp-l">${fp.map((x) => { const e = equipo(x.id);
         return `<li><span class="rk">${x.rank}</span><div class="li-main">${eqLink(e)}</div><span class="tarj"><i class="t-r">${x.ro}</i><i class="t-a">${x.am}</i><i class="t-z">${x.az}</i></span></li>`; }).join("")}</ol>` : vacio("Sin datos todavía.");
       nota = "Menos rojas primero, después menos amarillas y después menos azules. Orden de las cajitas: roja, amarilla, azul.";
     } else if (tab === "mvp") {
       const cnt = {};
       partidos().filter((p) => p.mvp && jugado(p)).forEach((p) => { cnt[p.mvp] = (cnt[p.mvp] || 0) + 1; });
-      const lista = rankear(Object.keys(cnt).map((id) => ({ id, n: cnt[id] })), (x) => String(x.n)).slice(0, 10);
+      const lista = rankear(Object.keys(cnt).map((id) => ({ id, n: cnt[id] }))
+        .sort((x, y) => y.n - x.n || String((jugador(x.id) || {}).nombre).localeCompare(String((jugador(y.id) || {}).nombre), "es")), (x) => String(x.n)).slice(0, 10);
       cuerpo = lista.length ? `<ol class="rank">${lista.map((x) => { const j = jugador(x.id), e = j ? equipo(j.equipo) : null;
         return `<li><span class="rk">${x.rank}</span><div class="li-main"><a href="#/jugador/${esc(x.id)}">${esc(j ? j.nombre : "?")}</a><small>${e ? eqLink(e) : ""}</small></div><b>${x.n}</b></li>`; }).join("")}</ol>` : vacio("Todavía no hay jugadores del partido cargados.");
-      nota = "El jugador del partido lo eligen los equipos y se anota en la planilla. Cuenta cuántas veces fue elegido.";
+      nota = "El jugador del partido lo elige el veedor y se anota en la planilla. Cuenta cuántas veces fue elegido.";
     } else if (tab === "suspendidos") {
       const susp = (D.suspendidos || []).map((s, k) => {
         const j = jugador(s.j), e = j ? equipo(j.equipo) : null;
