@@ -408,10 +408,19 @@ window.LIGA_DATA = {
       local: "e2", visitante: "e7", golesLocal: null, golesVisitante: null,
       goles: [], tarjetas: [] },
 
-    { id: "m11", fase: "Zona", zona: "B", fecha: "2026-10-24", hora: "14:00", cancha: "Cancha 3",
-      local: "e5", visitante: "e12", golesLocal: null, golesVisitante: null,
-      veedor: "Sid", veedorEq: "e16",
-      goles: [], tarjetas: [] },
+    { id: "m11", fase: "Zona", manual: true, zona: "B", fecha: "2026-10-24", hora: "14:00", cancha: "Cancha 3",
+      local: "e5", visitante: "e12", golesLocal: 4, golesVisitante: 1,
+      veedor: "Sid", veedorEq: "e16", mvp: "p96",   // cargado de la planilla en papel
+      goles: [
+        { j: "p25", e: "e5" },
+        { j: "p96", e: "e5" },
+        { j: "p96", e: "e5" },
+        { j: "p96", e: "e5" },
+        { j: "p59", e: "e12" }
+      ],
+      tarjetas: [
+        { j: "p95", e: "e5", t: "A" }
+      ] },
 
     { id: "m12", fase: "Zona", zona: "D", fecha: "2026-10-24", hora: "15:00", cancha: "Cancha 1",
       local: "e13", visitante: "e15", golesLocal: null, golesVisitante: null,

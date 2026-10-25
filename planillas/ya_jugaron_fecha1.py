@@ -30,3 +30,12 @@ JUGARON = {
  "e7":  ["Franco Antúnez","Fernando Trilles","Ivan Sanchez"],
  "e10": ["Daniel Chalen","Dieguis Sanchez","Alonso Machin","Emiliano Garcia"],
 }
+
+# ----- Fecha 2 (24/10), leído de las planillas: jugadores que jugaron por PRIMERA vez -----
+FECHA2 = {
+  "e5":  ["p25", "p98", "p100"],   # Dogos F5: Santiago Agustin Monzon, Jesus Caceres, Amadeo Benjamin Segundo
+  "e12": ["p60", "p342"],          # Grindr: Leandro Martin, Alejo Manuel Marcos
+}
+for _e, _l in FECHA2.items():
+    A_MANO.setdefault(_e, [])
+    A_MANO[_e] += [x for x in _l if x not in A_MANO[_e]]
