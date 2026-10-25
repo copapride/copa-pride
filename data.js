@@ -150,7 +150,7 @@ window.LIGA_DATA = {
     { id: "p58", nombre: "Lucas Salazar", equipo: "e12", foto: "" },
     { id: "p59", nombre: "Victorio Molina", equipo: "e12", foto: "" },
     { id: "p60", nombre: "Leandro Martin", equipo: "e12", foto: "" },
-    { id: "p61", nombre: "Agustín Bahl", equipo: "e13", foto: "" },
+    { id: "p61", nombre: "Agustín Bahl", equipo: "e13", foto: "", arquero: true },
     { id: "p62", nombre: "Federico Enzo Duran", equipo: "e13", foto: "" },
     { id: "p63", nombre: "Alessandro Ramos", equipo: "e13", foto: "" },
     { id: "p64", nombre: "Fabián Torres", equipo: "e13", foto: "" },
@@ -170,7 +170,7 @@ window.LIGA_DATA = {
     { id: "p88", nombre: "Jorge Rafael Arias", equipo: "e15", foto: "" },
     { id: "p89", nombre: "Pablo Lihuel Osorio", equipo: "e15", foto: "" },
     { id: "p90", nombre: "Jonatan Alejandro Auver", equipo: "e15", foto: "" },
-    { id: "p91", nombre: "Yoel Mendoza Leal", equipo: "e15", foto: "" },
+    { id: "p91", nombre: "Yoel Mendoza Leal", equipo: "e15", foto: "", arquero: true },
     { id: "p92", nombre: "Nahuel Santiago Baresi", equipo: "e15", foto: "" },
     { id: "p93", nombre: "Dario Hernan Toloza", equipo: "e15", foto: "" },
     { id: "p94", nombre: "Walter Carricondo", equipo: "e15", foto: "" },
@@ -488,10 +488,21 @@ window.LIGA_DATA = {
       ],
       tarjetas: [] },
 
-    { id: "m15", fase: "Zona", zona: "D", fecha: "2026-10-24", hora: "16:00", cancha: "Cancha 1",
-      local: "e4", visitante: "e16", golesLocal: null, golesVisitante: null,
-      veedor: "Madi", veedorEq: "e2",
-      goles: [], tarjetas: [] },
+    { id: "m15", fase: "Zona", manual: true, zona: "D", fecha: "2026-10-24", hora: "16:00", cancha: "Cancha 1",
+      local: "e4", visitante: "e16", golesLocal: 1, golesVisitante: 2,
+      veedor: "Madi", veedorEq: "e2", mvp: "p77",   // carga en vivo + azul de Estigarribia (planilla)
+      goles: [
+        { j: "p327", e: "e4" },
+        { j: "p79", e: "e16" },
+        { j: "p77", e: "e16" }
+      ],
+      tarjetas: [
+        { j: "p327", e: "e4", t: "A" },
+        { j: "p324", e: "e4", t: "A" },
+        { j: "p324", e: "e4", t: "Z" },
+        { j: "p149", e: "e16", t: "A" },
+        { j: "p79", e: "e16", t: "A" }
+      ] },
 
     { id: "m16", fase: "Zona", manual: true, zona: "B", fecha: "2026-10-24", hora: "16:00", cancha: "Cancha 3",
       local: "e3", visitante: "e14", golesLocal: 3, golesVisitante: 5,
