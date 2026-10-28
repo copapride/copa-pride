@@ -107,11 +107,9 @@ def hoja(c, p):
     c.setStrokeColor(black); c.setLineWidth(1.6); c.line(M, H - 24 * mm, W - M, H - 24 * mm)
     # datos del partido (derecha)
     fecha = FECHAS.get(p["fecha"], p["fase"]); dia = DIAS.get(p["fecha"], p["fecha"])
-    c.setFillColor(black); c.setFont("Helvetica-Bold", 13)
-    c.drawRightString(W - M, H - 9 * mm, (nombre_equipo(local) + "  vs  " + nombre_equipo(visit)).upper())
-    c.setFillColor(black); c.setFont("Helvetica-Bold", 10)
+    c.setFillColor(black); c.setFont("Helvetica-Bold", 11)
     zona = ("Zona " + p["zona"] + " · ") if p.get("zona") else ""
-    c.drawRightString(W - M, H - 14.5 * mm, f"{zona}{fecha} · {dia} · {p['hora']} hs · {p['cancha']}")
+    c.drawRightString(W - M, H - 12 * mm, f"{zona}{fecha} · {dia} · {p['hora']} hs · {p['cancha']}")
     c.setFont("Helvetica-Bold", 10); c.drawRightString(W - M - 62 * mm, H - 20.5 * mm, "Veedor/a:")
     c.setStrokeColor(black); c.setLineWidth(0.7); c.line(W - M - 60 * mm, H - 21 * mm, W - M, H - 21 * mm)
     vn = p.get("veedor") or ""; ve = nombre_equipo(p["veedorEq"]) if p.get("veedorEq") else ""
@@ -122,9 +120,7 @@ def hoja(c, p):
     yr = H - 26 * mm
     c.setFillColor(GRISCLARO); c.setStrokeColor(black); c.setLineWidth(1.2); c.rect(M, yr - bh, W - 2 * M, bh, fill=1, stroke=1)
     c.setFillColor(black); c.setFont("Helvetica-Bold", 8.5)
-    c.drawString(M + 3 * mm, yr - 5 * mm, "RESULTADO FINAL")
-    c.setFont("Helvetica", 7.5); c.drawString(M + 3 * mm, yr - 9 * mm, "Escribilo grande:")
-    c.drawString(M + 3 * mm, yr - 12.2 * mm, "es lo que se carga")
+    c.drawString(M + 3 * mm, yr - 8.8 * mm, "RESULTADO FINAL")
     c.setFont("Helvetica-Bold", 13)
     nl, nv = nombre_equipo(local).upper(), nombre_equipo(visit).upper()
     cx = W / 2
@@ -154,7 +150,7 @@ def hoja(c, p):
     # instrucción
     c.setStrokeColor(black); c.setLineWidth(1.2); c.line(M, 8 * mm, W - M, 8 * mm)
     c.setFillColor(black); c.setFont("Helvetica-Bold", 8)
-    c.drawCentredString(W / 2, 3.8 * mm, "JUGÓ en negro = ya jugó antes. GOLES: palitos (la banda cierra el 5). TARJETAS: pintá el casillero. El resultado final va en el recuadro grande.")
+    c.drawCentredString(W / 2, 3.8 * mm, "JUGÓ en negro = ya jugó antes. GOLES: palitos (la banda cierra el 5). TARJETAS: tildá el casillero. El resultado final va en el recuadro grande.")
 
 def pdf(nombre, partidos):
     c = canvas.Canvas(os.path.join(AQUI, nombre), pagesize=landscape(A4))
