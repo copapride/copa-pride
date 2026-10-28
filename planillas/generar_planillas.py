@@ -134,19 +134,19 @@ def hoja(c, p):
     gap = 6 * mm; ancho = (W - 2 * M - gap) / 2
     ytop = yr - bh - 3 * mm
     y1 = tabla(c, M, ytop, ancho, local); y2 = tabla(c, M + ancho + gap, ytop, ancho, visit)
-    ybase = min(y1, y2) - 4 * mm
+    ybase = min(y1, y2) - 7 * mm
     bh = 0
     # pie: firmas
-    yf = ybase - bh - 4 * mm
+    yf = ybase - bh - 3 * mm
     c.setFillColor(black); c.setFont("Helvetica-Bold", 8)
     campos = ["Jugador del partido", "Firma y aclaración capitán " + nombre_equipo(local), "Firma y aclaración capitán " + nombre_equipo(visit), "Firma árbitro", "Veedor (nombre y equipo)"]
     cw = (W - 2 * M) / len(campos)
     for i, t in enumerate(campos):
         x = M + i * cw
         c.setFont("Helvetica-Bold", 6.8 if len(t) > 24 else 7.5); c.drawString(x + 1 * mm, yf - 3 * mm, t[:48])
-        c.setStrokeColor(GRIS); c.setLineWidth(0.6); c.line(x + 1 * mm, yf - 12 * mm, x + cw - 3 * mm, yf - 12 * mm)
-    c.setFont("Helvetica-Bold", 7.5); c.drawString(M + 1 * mm, yf - 17 * mm, "Incidencias:")
-    c.line(M + 18 * mm, yf - 17.5 * mm, W - M, yf - 17.5 * mm)
+        c.setStrokeColor(GRIS); c.setLineWidth(0.6); c.line(x + 1 * mm, yf - 16 * mm, x + cw - 3 * mm, yf - 16 * mm)
+    c.setFont("Helvetica-Bold", 7.5); c.drawString(M + 1 * mm, yf - 23.5 * mm, "Incidencias:")
+    c.line(M + 18 * mm, yf - 24 * mm, W - M, yf - 24 * mm)
     # instrucción
     c.setStrokeColor(black); c.setLineWidth(1.2); c.line(M, 8 * mm, W - M, 8 * mm)
     c.setFillColor(black); c.setFont("Helvetica-Bold", 8)
