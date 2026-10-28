@@ -23,7 +23,7 @@ ORO = HexColor("#C9A227"); NEGRO = HexColor("#111111"); GRIS = HexColor("#9a9a9a
 W, H = landscape(A4)
 M = 8 * mm
 DIAS = {"2026-10-24": "Sáb 24/10", "2026-10-31": "Sáb 31/10", "2026-11-07": "Sáb 7/11", "2026-11-14": "Sáb 14/11", "2026-11-21": "Sáb 21/11"}
-FECHAS = {"2026-10-24": "Fecha 2", "2026-10-31": "Fecha 3"}
+FECHAS = {"2026-10-24": "Fecha 2", "2026-10-31": "Fecha 3", "2026-11-07": "Cuartos", "2026-11-14": "Semifinales", "2026-11-21": "Finales"}
 
 def nombre_equipo(t):
     return EQ[t]["nombre"] if t in EQ else t
@@ -45,6 +45,15 @@ def tabla(c, x0, ytop, ancho, eid, filas=16):
         except Exception:
             pass
     c.drawString(tx, ytop - 6.3 * mm, nombre.upper())
+    # faltas: arriba, en la barra del equipo (donde las buscan los veedores)
+    fx = x0 + ancho - 68 * mm
+    c.setFillColor(white); c.setLineWidth(0.8); c.rect(fx, ytop - 7.8 * mm, 66.5 * mm, 6.6 * mm, fill=1, stroke=1)
+    c.setFillColor(black); c.setFont("Helvetica-Bold", 8.5)
+    c.drawString(fx + 1.5 * mm, ytop - 5.6 * mm, "FALTAS")
+    c.setFont("Helvetica-Bold", 8); c.drawString(fx + 15 * mm, ytop - 5.6 * mm, "1T")
+    c.setLineWidth(0.6); c.line(fx + 20 * mm, ytop - 6.3 * mm, fx + 39 * mm, ytop - 6.3 * mm)
+    c.drawString(fx + 42 * mm, ytop - 5.6 * mm, "2T")
+    c.line(fx + 47 * mm, ytop - 6.3 * mm, fx + 65.5 * mm, ytop - 6.3 * mm)
     # columnas
     cols = [("Nº", 9), ("Nombre y apellido", 58), ("JUGÓ", 11), ("GOLES (palitos)", 21), ("AMAR.", 11), ("ROJA", 11), ("AZUL", 11)]
     tot = sum(w for _, w in cols); esc_f = ancho / mm / tot
@@ -58,7 +67,7 @@ def tabla(c, x0, ytop, ancho, eid, filas=16):
         if i == 1: c.drawString(xs[i] + 1.5 * mm, yh - 4.3 * mm, t)
         else: c.drawCentredString(cx, yh - 4.3 * mm, t)
     # filas
-    alto = 6.9 * mm
+    alto = 6.35 * mm
     jug = PL.get(eid, [])
     y = yh - 6.5 * mm
     for r in range(filas):
@@ -86,7 +95,6 @@ def tabla(c, x0, ytop, ancho, eid, filas=16):
     c.setFont("Helvetica", 7.5); c.setFillColor(black)
     c.drawString(x0 + 1 * mm, y - 4.2 * mm, "Goles en contra a favor de este equipo:")
     for k in range(3): box(c, x0 + 63 * mm + k * 6 * mm, y - 5 * mm, 4 * mm)
-    c.drawString(x0 + 83 * mm, y - 4.2 * mm, "Faltas 1T:  ______   2T:  ______")
     return y
 
 def hoja(c, p):
@@ -109,24 +117,29 @@ def hoja(c, p):
     vn = p.get("veedor") or ""; ve = nombre_equipo(p["veedorEq"]) if p.get("veedorEq") else ""
     if vn or ve:
         c.setFont("Helvetica", 10); c.drawString(W - M - 59 * mm, H - 20.2 * mm, (vn + (f" ({ve})" if ve else "")).strip())
-    # tablas
-    gap = 6 * mm; ancho = (W - 2 * M - gap) / 2
-    ytop = H - 24 * mm - 3 * mm
-    y1 = tabla(c, M, ytop, ancho, local); y2 = tabla(c, M + ancho + gap, ytop, ancho, visit)
-    ybase = min(y1, y2) - 7 * mm
-    # recuadro de resultado final
-    bh = 17 * mm
-    c.setFillColor(GRISCLARO); c.setStrokeColor(black); c.setLineWidth(1.2); c.rect(M, ybase - bh, W - 2 * M, bh, fill=1, stroke=1)
-    c.setFillColor(black); c.setFont("Helvetica-Bold", 9); c.drawString(M + 3 * mm, ybase - 5 * mm, "RESULTADO FINAL (escribilo grande, es lo que se carga)")
+    # recuadro de resultado final: arriba, entre la cabecera y las listas
+    bh = 15 * mm
+    yr = H - 26 * mm
+    c.setFillColor(GRISCLARO); c.setStrokeColor(black); c.setLineWidth(1.2); c.rect(M, yr - bh, W - 2 * M, bh, fill=1, stroke=1)
+    c.setFillColor(black); c.setFont("Helvetica-Bold", 8.5)
+    c.drawString(M + 3 * mm, yr - 5 * mm, "RESULTADO FINAL")
+    c.setFont("Helvetica", 7.5); c.drawString(M + 3 * mm, yr - 9 * mm, "Escribilo grande:")
+    c.drawString(M + 3 * mm, yr - 12.2 * mm, "es lo que se carga")
     c.setFont("Helvetica-Bold", 13)
     nl, nv = nombre_equipo(local).upper(), nombre_equipo(visit).upper()
     cx = W / 2
-    c.drawRightString(cx - 24 * mm, ybase - 12.5 * mm, nl)
-    c.drawString(cx + 24 * mm, ybase - 12.5 * mm, nv)
+    c.drawRightString(cx - 24 * mm, yr - 9.4 * mm, nl)
+    c.drawString(cx + 24 * mm, yr - 9.4 * mm, nv)
     c.setFillColor(white); c.setLineWidth(1.4)
-    c.rect(cx - 20 * mm, ybase - bh + 2 * mm, 16 * mm, 11 * mm, fill=1, stroke=1)
-    c.rect(cx + 4 * mm, ybase - bh + 2 * mm, 16 * mm, 11 * mm, fill=1, stroke=1)
-    c.setFillColor(black); c.setFont("Helvetica-Bold", 20); c.drawCentredString(cx, ybase - 12 * mm, "–")
+    c.rect(cx - 20 * mm, yr - bh + 2 * mm, 16 * mm, 11 * mm, fill=1, stroke=1)
+    c.rect(cx + 4 * mm, yr - bh + 2 * mm, 16 * mm, 11 * mm, fill=1, stroke=1)
+    c.setFillColor(black); c.setFont("Helvetica-Bold", 20); c.drawCentredString(cx, yr - 9.6 * mm, "–")
+    # tablas
+    gap = 6 * mm; ancho = (W - 2 * M - gap) / 2
+    ytop = yr - bh - 3 * mm
+    y1 = tabla(c, M, ytop, ancho, local); y2 = tabla(c, M + ancho + gap, ytop, ancho, visit)
+    ybase = min(y1, y2) - 4 * mm
+    bh = 0
     # pie: firmas
     yf = ybase - bh - 4 * mm
     c.setFillColor(black); c.setFont("Helvetica-Bold", 8)
@@ -152,5 +165,5 @@ def pdf(nombre, partidos):
 
 if __name__ == "__main__":
     P = {p["id"]: p for p in datos["pa"]}
-    for fecha, nom in (("2026-10-24", "Planillas_Fecha2_24-10.pdf"),):   # una fecha por vez: se agregan jugadores nuevos antes de generar la siguiente
+    for fecha, nom in (("2026-10-31", "Planillas_Fecha3_31-10.pdf"),):   # una fecha por vez: se agregan jugadores nuevos antes de generar la siguiente
         pdf(nom, [p for p in datos["pa"] if p["fecha"] == fecha])
