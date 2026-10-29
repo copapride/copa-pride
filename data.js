@@ -79,7 +79,7 @@ window.LIGA_DATA = {
     { id: "p300", nombre: "Luis Alberto Guantay", equipo: "e3", foto: "" },
     { id: "p301", nombre: "Elias Ezequiel Ale", equipo: "e3", foto: "", arquero: true },
     { id: "p302", nombre: "Rolando Zena", equipo: "e3", foto: "" },
-    { id: "p303", nombre: "Roberto Ricardo Rojas", equipo: "e3", foto: "" },
+    { id: "p344", nombre: "Brian Oliva", equipo: "e3", foto: "", agregado: "2026-10-29" },   // cambio: entra por Roberto Ricardo Rojas (cupo 1 de 2)
     { id: "p304", nombre: "Alberto Vallejos", equipo: "e3", foto: "" },
     { id: "p305", nombre: "Francisco Hereñu", equipo: "e3", foto: "" },
     { id: "p306", nombre: "Eduardo Jose Flores", equipo: "e3", foto: "" },
