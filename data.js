@@ -529,14 +529,17 @@ window.LIGA_DATA = {
     // ----- Fecha 3 (sorteo del 15/10) -----
     { id: "m17", fase: "Zona", zona: "B", fecha: "2026-10-31", hora: "14:00", cancha: "Cancha 1",
       local: "e12", visitante: "e14", golesLocal: null, golesVisitante: null,
+      veedor: "Gus", veedorEq: "e1",
       goles: [], tarjetas: [] },
 
     { id: "m18", fase: "Zona", zona: "B", fecha: "2026-10-31", hora: "14:00", cancha: "Cancha 2",
       local: "e5", visitante: "e3", golesLocal: null, golesVisitante: null,
+      veedor: "Trilles", veedorEq: "e7",
       goles: [], tarjetas: [] },
 
     { id: "m19", fase: "Zona", zona: "C", fecha: "2026-10-31", hora: "14:00", cancha: "Cancha 3",
       local: "e9", visitante: "e10", golesLocal: null, golesVisitante: null,
+      veedor: "Juanpy", veedorEq: "e11",
       goles: [], tarjetas: [] },
 
     { id: "m20", fase: "Zona", zona: "A", fecha: "2026-10-31", hora: "15:00", cancha: "Cancha 1",
@@ -545,10 +548,12 @@ window.LIGA_DATA = {
 
     { id: "m21", fase: "Zona", zona: "D", fecha: "2026-10-31", hora: "15:00", cancha: "Cancha 2",
       local: "e13", visitante: "e4", golesLocal: null, golesVisitante: null,
+      veedor: "Cesar", veedorEq: "e9",
       goles: [], tarjetas: [] },
 
     { id: "m22", fase: "Zona", zona: "D", fecha: "2026-10-31", hora: "15:00", cancha: "Cancha 3",
       local: "e15", visitante: "e16", golesLocal: null, golesVisitante: null,
+      veedor: "Emma", veedorEq: "e5",
       goles: [], tarjetas: [] },
 
     { id: "m23", fase: "Zona", zona: "A", fecha: "2026-10-31", hora: "16:00", cancha: "Cancha 1",
@@ -557,6 +562,7 @@ window.LIGA_DATA = {
 
     { id: "m24", fase: "Zona", zona: "C", fecha: "2026-10-31", hora: "16:00", cancha: "Cancha 3",
       local: "e11", visitante: "e8", golesLocal: null, golesVisitante: null,
+      veedor: "Fran", veedorEq: "e13",
       goles: [], tarjetas: [] },
 
     // ----- Playoffs (equipos por definir) -----
