@@ -38,11 +38,12 @@ FECHA2 = {
   "e9":  ["p41", "p44", "p135"],   # Red Aguará: Franco Bruno Di Benedetto, Federico Gallardo, Bernardo Vleminchx
   "e1":  ["p3", "p200"],           # Aguará Guazú: Alfredo Segovia, Fabian Pare
   "e6":  ["p28"],                  # Crisol: Joel Galeanos
-  "e3":  ["p309", "p311"],         # FGR: Ruben Dario Ledezma (hizo gol), Juan Cruz Peñalva (confirmado por Migue)
+  "e3":  ["p309", "p311", "p304"], # FGR: Ruben Dario Ledezma (hizo gol), Juan Cruz Peñalva, Alberto Vallejos (confirmados por Fer)
   "e15": ["p88", "p92", "p94"],    # Tigres: Jorge Rafael Arias, Nahuel Santiago Baresi, Walter Carricondo
   "e16": ["p77"],                  # Apex Aguará: Agustin Garcin (hizo gol)
   "e2":  ["p341"],                 # Panteras KFC: Nicolas Samaniego
-  "e10": ["p49"],                  # Yacares BA: Cristian Rojas (hizo el gol)
+  "e10": ["p49", "p106"],          # Yacares BA: Cristian Rojas (hizo el gol), Franco Schiuma (confirmado por Fer)
+  "e8":  ["p128", "p36", "p40", "p123"],   # Impulse: José Luis Cabral, Agustín Balladares, Gabriel Baez, Víctor Ramírez (confirmados por Fer)
 }
 for _e, _l in FECHA2.items():
     A_MANO.setdefault(_e, [])
