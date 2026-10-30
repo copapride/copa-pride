@@ -38,7 +38,7 @@ FECHA2 = {
   "e9":  ["p41", "p44", "p135"],   # Red Aguará: Franco Bruno Di Benedetto, Federico Gallardo, Bernardo Vleminchx
   "e1":  ["p3", "p200"],           # Aguará Guazú: Alfredo Segovia, Fabian Pare
   "e6":  ["p28"],                  # Crisol: Joel Galeanos
-  "e3":  ["p309"],                 # FGR: Ruben Dario Ledezma (hizo gol)
+  "e3":  ["p309", "p311"],         # FGR: Ruben Dario Ledezma (hizo gol), Juan Cruz Peñalva (confirmado por Migue)
   "e15": ["p88", "p92", "p94"],    # Tigres: Jorge Rafael Arias, Nahuel Santiago Baresi, Walter Carricondo
   "e16": ["p77"],                  # Apex Aguará: Agustin Garcin (hizo gol)
   "e2":  ["p341"],                 # Panteras KFC: Nicolas Samaniego
