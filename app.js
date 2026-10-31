@@ -463,7 +463,9 @@
       const dias = Math.round((d - new Date(hoy + "T12:00:00")) / 86400000);
       titulo = etiquetaFecha(prox);
       num = String(d.getDate()); mes = MESES[d.getMonth()]; dia = DIAS3[d.getDay()];
-      const h0 = partidos().filter((p) => p.fecha === prox && p.hora).map((p) => p.hora).sort()[0] || "14:00";
+      const delDia = partidos().filter((p) => p.fecha === prox);
+      // Si algún partido de ese día todavía no tiene horario, la cuenta va al arranque de la jornada (14 hs).
+      const h0 = delDia.some((p) => !p.hora) ? "14:00" : (delDia.map((p) => p.hora).sort()[0] || "14:00");
       cuenta = `<div class="cd" data-t="${esc(prox)}T${esc(h0)}:00-03:00"><p class="cd-k">${dias === 0 ? "Hoy · " : ""}Arranca la pelota en</p><div class="cd-t"><div><b data-u="d">00</b><span>días</span></div><div><b data-u="h">00</b><span>hs</span></div><div><b data-u="m">00</b><span>min</span></div><div><b data-u="s">00</b><span>seg</span></div></div></div>`;
     } else {
       titulo = "Terminó la Copa"; num = "FIN"; mes = ""; dia = D.estado || "Gracias por jugar";
@@ -622,7 +624,7 @@
       cuerpo = cols.map((c) => `<section class="bloque"><h2 class="titulo-sec">${esc(c)}</h2><div class="res-grid">${visibles.filter((p) => p.cancha === c).sort(porFecha).map((p) => marcador(p, { sin: "cancha", veedor: true, detalle: true })).join("")}</div></section>`).join("");
     } else {
       const horas = [...new Set(visibles.map((p) => p.hora))].sort();
-      cuerpo = horas.map((h) => `<section class="hora-blq"><div class="hora-n"><b>${esc(h)}</b></div><div class="res-grid">${visibles.filter((p) => p.hora === h).sort((a, b) => natural(a.cancha, b.cancha)).map((p) => marcador(p, { sin: "hora", veedor: true, detalle: true })).join("")}</div></section>`).join("");
+      cuerpo = horas.map((h) => `<section class="hora-blq"><div class="hora-n"><b>${h ? esc(h) : "Horario a definir"}</b></div><div class="res-grid">${visibles.filter((p) => p.hora === h).sort((a, b) => natural(a.cancha, b.cancha)).map((p) => marcador(p, { sin: "hora", veedor: true, detalle: true })).join("")}</div></section>`).join("");
     }
 
     const jugDia = delDia.filter(jugado);
@@ -664,6 +666,13 @@
       : `<span class="n tbd">${esc(s.texto)}</span>`;
   }
 
+  // "Sáb 14-11 · 16:00 hs · Cancha a definir" / "Sáb 28-11 · Horario y cancha a definir"
+  function horarioTxt(p) {
+    const partes = p.fecha ? [esc(fechaCorta(p.fecha))] : [];
+    if (p.hora) { partes.push(esc(p.hora) + " hs"); partes.push(p.cancha ? esc(p.cancha) : "Cancha a definir"); }
+    else partes.push(p.cancha ? "Horario a definir · " + esc(p.cancha) : "Horario y cancha a definir");
+    return partes.join(" · ");
+  }
   function cruceHtml(c) {
     const rc = resolverCruce(c), p = rc.p;
     const ok = p && jugado(p), gan = ok ? ganadorId(p) : null, pe = (p && p.penales) || {};
@@ -679,7 +688,7 @@
       <div class="res-top"><span>${esc(c.nombre || "")}</span>${ok ? '<span class="tag">FINAL</span>' : ""}</div>
       ${fila(rc.local, ok ? p.golesLocal : null, pe.local, p ? p.local : null, p ? (p.slotL != null ? p.slotL : p.local) : c.local)}
       ${fila(rc.visitante, ok ? p.golesVisitante : null, pe.visitante, p ? p.visitante : null, p ? (p.slotV != null ? p.slotV : p.visitante) : c.visitante)}
-      ${p ? `<p class="veedor">${p.fecha ? [fechaCorta(p.fecha), p.hora, p.cancha].filter(Boolean).map(esc).join(" · ") : p.hora ? `${esc(p.hora)} hs · ${p.cancha ? esc(p.cancha) : "Cancha a definir"}` : "Horario y cancha a definir"}</p>` : ""}
+      ${p ? `<p class="veedor">${horarioTxt(p)}</p>` : ""}
     </article>`;
   }
 

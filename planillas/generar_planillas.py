@@ -22,8 +22,8 @@ if os.path.exists(_f):
 ORO = HexColor("#C9A227"); NEGRO = HexColor("#111111"); GRIS = HexColor("#9a9a9a"); GRISCLARO = HexColor("#f1f1f1")
 W, H = landscape(A4)
 M = 8 * mm
-DIAS = {"2026-10-24": "Sáb 24/10", "2026-10-31": "Sáb 31/10", "2026-11-07": "Sáb 7/11", "2026-11-14": "Sáb 14/11", "2026-11-21": "Sáb 21/11"}
-FECHAS = {"2026-10-24": "Fecha 2", "2026-10-31": "Fecha 3", "2026-11-07": "Cuartos", "2026-11-14": "Semifinales", "2026-11-21": "Finales"}
+DIAS = {"2026-10-24": "Sáb 24/10", "2026-10-31": "Sáb 31/10", "2026-11-14": "Sáb 14/11", "2026-11-28": "Sáb 28/11", "2026-12-12": "Sáb 12/12"}
+FECHAS = {"2026-10-24": "Fecha 2", "2026-10-31": "Fecha 3", "2026-11-14": "Cuartos de final", "2026-11-28": "Semifinales", "2026-12-12": "Final y 3er puesto"}
 
 def nombre_equipo(t):
     return EQ[t]["nombre"] if t in EQ else t
