@@ -292,7 +292,6 @@ a.tarjeta:hover{border-color:var(--oro);transform:translateY(-2px)}
 @keyframes introLogo{from{opacity:0;transform:scale(.7) rotate(-8deg)}to{opacity:1;transform:scale(1) rotate(-2deg)}}
 @keyframes introBarra{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes introSale{to{opacity:0;visibility:hidden}}
-@media (prefers-reduced-motion:reduce){#intro{animation-duration:.01s;animation-delay:.6s}.intro-in img,.intro-barra,.intro-by,.intro-logo .sello{animation:none}}
 
 /* Historial: franjas Oro / Plata */
 .hf{margin-top:.8rem;border-radius:12px;padding:.55rem .6rem .6rem;border-left:5px solid var(--oro);background:linear-gradient(90deg,rgba(200,147,42,.16),rgba(200,147,42,.03))}
@@ -372,7 +371,6 @@ a.tarjeta:hover{border-color:var(--oro);transform:translateY(-2px)}
 .intro-by{animation:introBy .7s ease 2.85s both}
 #intro.sin-mov .intro-logo .il-ball,#intro.sin-mov .intro-logo .il-base,#intro.sin-mov .il-rebote{animation:none;opacity:1}
 #intro.sin-mov .il-rebote,#intro.sin-mov .il-confeti{display:none}
-@media (prefers-reduced-motion:reduce){.intro-in .intro-logo .il-ball,.intro-in .intro-logo .il-base{animation:none}.il-confeti,.il-rebote,.il-wrap::after{display:none}}
 
 table.valla td.pos{font-weight:700}
 table.valla tbody tr:first-child td.pos{color:var(--oro-claro);box-shadow:inset 3px 0 0 var(--oro)}

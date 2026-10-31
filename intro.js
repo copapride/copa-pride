@@ -6,8 +6,7 @@
   var cerrar = function () { var e = document.getElementById("intro"); if (e) e.remove(); };
   intro.addEventListener("click", cerrar);
 
-  var reducido = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reducido) { intro.classList.add("sin-mov"); setTimeout(cerrar, 2500); return; }
+  // Las animaciones se muestran siempre, también con "Reducir movimiento" activado en el celu.
   setTimeout(cerrar, 6100);
 
   /* confeti con los colores del orgullo */

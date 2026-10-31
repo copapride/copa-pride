@@ -477,10 +477,6 @@ td.pts{font-weight:700;font-size:1rem;background:var(--hoja-2)}
   .celda-eq .pais,.celda-eq .cabeza{display:none}
 }
 @media (max-width:900px){.ed{grid-template-columns:1fr;gap:.4rem}.ed-anio{writing-mode:horizontal-tb;transform:none;font-size:3.6rem}.hist2{grid-template-columns:1fr}.barra{flex-basis:22%}.podio{gap:.4rem}.pd em{font-size:2rem}.pd .badge.grande{width:44px;height:44px}}
-/* Celulares con "Reducir movimiento": sin animaciones que se repiten (antes quedaban aceleradas). La cinta queda quieta y se desliza con el dedo. */
-@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important;transition:none!important}
-  .tk-track{animation:none!important}.ticker{overflow-x:auto;-webkit-overflow-scrolling:touch}.ticker::before,.ticker::after{display:none}
-  .tag.vivo i,.tk-t.vivo{animation:none!important}}
 
 /* ---------- Formas más suaves ---------- */
 .mt,.cab,.mi,.zona,.camp-card,.sede,.card,.eqf,.tarjeta,.celda.cruce,.ficha,.campeon,.pd,.rank li,.hc,.hf,.panel,.vacio,.eqz-z,.mas-panel{border-radius:16px}
@@ -702,7 +698,6 @@ html{scrollbar-width:thin;scrollbar-color:#3a352e #0b0a09}
 .gfx-toast{position:fixed;inset:auto 1rem 5.2rem auto;width:min(92vw,440px);height:185px;border-radius:18px;border:2px solid var(--oro-t);z-index:300;box-shadow:0 18px 50px rgba(0,0,0,.6)}
 @media (min-width:901px){.gfx-toast{inset:auto 1.4rem 1.4rem auto}}
 @media (max-width:560px){.gfx-esc .badge.grande{width:72px;height:72px}.gfx-t strong{font-size:2.8rem}.gfx-eq{font-size:1.3rem}.mc-carrera{height:46%}.mc-sentado{height:56%;right:0}.mc-brillos i{font-size:12px}}
-@media (prefers-reduced-motion:reduce){.gfx-esc,.gfx-t strong,.gfx-masc *{animation:none!important}.mc-carrera,.mc-polvo,.mc-brisa,.mc-poof,.mc-brillos{display:none}.mc-sentado{opacity:1}.gfx-conf{display:none}}
 
 /* ---------------- Cupos de agregados ---------------- */
 .ag-regla{color:var(--tinta-2);max-width:62ch;margin:.2rem 0 1rem}
@@ -845,7 +840,6 @@ html{scrollbar-width:thin;scrollbar-color:#3a352e #0b0a09}
 @keyframes tarjSale{from{transform:translateY(-60%) rotate(-35deg) scale(.4);opacity:0}to{transform:rotate(-8deg);opacity:1}}
 @keyframes tarjBate{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(6deg) translateY(-4px)}}
 @media (max-width:560px){.gfx-tarj{width:34px;height:48px}}
-@media (prefers-reduced-motion:reduce){.gfx-tarj{animation:none!important;transform:rotate(-8deg)}}
 .gfx-card .gfx-t{min-width:0}
 .gfx-card .gfx-t strong{font-size:2.6rem}
 @media (max-width:560px){.gfx-card .gfx-t strong{font-size:2rem}}

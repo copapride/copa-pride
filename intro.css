@@ -16,7 +16,6 @@
 @keyframes introLogo{from{opacity:0;transform:scale(.7) rotate(-8deg)}to{opacity:1;transform:scale(1) rotate(-2deg)}}
 @keyframes introBarra{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes introSale{to{opacity:0;visibility:hidden}}
-@media (prefers-reduced-motion:reduce){#intro{animation-duration:.01s;animation-delay:.6s}.intro-in img,.intro-barra,.intro-by,.intro-logo .sello{animation:none}}
 /* ===== Intro con pelota que cae y rebota ===== */
 .intro-logo{padding-bottom:1.6rem}
 .il-wrap{position:relative;width:min(78vw,420px);transform:rotate(-2deg)}
@@ -55,7 +54,6 @@
 .intro-by{animation:introBy .7s ease 2.85s both}
 #intro.sin-mov .intro-logo .il-ball,#intro.sin-mov .intro-logo .il-base,#intro.sin-mov .il-rebote{animation:none;opacity:1}
 #intro.sin-mov .il-rebote,#intro.sin-mov .il-confeti{display:none}
-@media (prefers-reduced-motion:reduce){.intro-in .intro-logo .il-ball,.intro-in .intro-logo .il-base{animation:none}.il-confeti,.il-rebote,.il-wrap::after{display:none}}
 /* ===== Logo nuevo (trae el sello 2026 y "by Liga Pride" adentro) ===== */
 .il-wrap{width:min(72vw,380px)}
 .intro-in .intro-logo .il-ball{left:19.53%;top:4.52%;width:33.73%}
