@@ -843,3 +843,7 @@ html{scrollbar-width:thin;scrollbar-color:#3a352e #0b0a09}
 .gfx-card .gfx-t{min-width:0}
 .gfx-card .gfx-t strong{font-size:2.6rem}
 @media (max-width:560px){.gfx-card .gfx-t strong{font-size:2rem}}
+
+/* Cuadro de copas: puesto con el que llegó cada equipo */
+.fe .pto{flex:0 0 auto;font-size:.8rem;font-weight:700;color:var(--oro-t);margin-left:-.15rem;margin-right:auto;font-variant-numeric:tabular-nums}
+.fe .n{flex:0 1 auto}

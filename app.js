@@ -667,15 +667,18 @@
   function cruceHtml(c) {
     const rc = resolverCruce(c), p = rc.p;
     const ok = p && jugado(p), gan = ok ? ganadorId(p) : null, pe = (p && p.penales) || {};
-    const fila = (s, g, pen, id) => {
+    // Puesto del ranking general con el que llegó (ej. "(1°)"), cuando el cruce sale de las zonas.
+    const puesto = (slot) => { const m = /^#(\d+)$/.exec(slot || ""); return m ? m[1] : ""; };
+    const fila = (s, g, pen, id, slot) => {
       const cls = ok && gan ? (gan === id ? "gana" : "pierde") : "";
       const link = s.eq ? `href="#/equipo/${esc(s.eq.id)}"` : "";
-      return `<a class="fe ${cls}" ${link}>${slotHtml(s)}<span class="gl">${g == null ? "" : esc(g)}${pen != null ? `<i>(${esc(pen)})</i>` : ""}</span></a>`;
+      const pu = s.eq ? puesto(slot) : "";
+      return `<a class="fe ${cls}" ${link}>${slotHtml(s)}${pu ? `<span class="pto">(${esc(pu)}°)</span>` : ""}<span class="gl">${g == null ? "" : esc(g)}${pen != null ? `<i>(${esc(pen)})</i>` : ""}</span></a>`;
     };
     return `<article class="celda cruce" data-cruce="${esc(c.id)}">
       <div class="res-top"><span>${esc(c.nombre || "")}</span>${ok ? '<span class="tag">FINAL</span>' : ""}</div>
-      ${fila(rc.local, ok ? p.golesLocal : null, pe.local, p ? p.local : null)}
-      ${fila(rc.visitante, ok ? p.golesVisitante : null, pe.visitante, p ? p.visitante : null)}
+      ${fila(rc.local, ok ? p.golesLocal : null, pe.local, p ? p.local : null, p ? (p.slotL != null ? p.slotL : p.local) : c.local)}
+      ${fila(rc.visitante, ok ? p.golesVisitante : null, pe.visitante, p ? p.visitante : null, p ? (p.slotV != null ? p.slotV : p.visitante) : c.visitante)}
       ${p ? `<p class="veedor">${p.fecha ? [fechaCorta(p.fecha), p.hora, p.cancha].filter(Boolean).map(esc).join(" · ") : p.hora ? `${esc(p.hora)} hs · ${p.cancha ? esc(p.cancha) : "Cancha a definir"}` : "Horario y cancha a definir"}</p>` : ""}
     </article>`;
   }
