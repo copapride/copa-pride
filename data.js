@@ -544,6 +544,7 @@ window.LIGA_DATA = {
 
     { id: "m20", fase: "Zona", zona: "A", fecha: "2026-10-31", hora: "15:00", cancha: "Cancha 1",
       local: "e6", visitante: "e7", golesLocal: null, golesVisitante: null,
+      veedor: "", veedorEq: "e3",
       goles: [], tarjetas: [] },
 
     { id: "m21", fase: "Zona", zona: "D", fecha: "2026-10-31", hora: "15:00", cancha: "Cancha 2",
@@ -558,6 +559,7 @@ window.LIGA_DATA = {
 
     { id: "m23", fase: "Zona", zona: "A", fecha: "2026-10-31", hora: "16:00", cancha: "Cancha 1",
       local: "e1", visitante: "e2", golesLocal: null, golesVisitante: null,
+      veedor: "", veedorEq: "e7",
       goles: [], tarjetas: [] },
 
     { id: "m24", fase: "Zona", zona: "C", fecha: "2026-10-31", hora: "16:00", cancha: "Cancha 3",

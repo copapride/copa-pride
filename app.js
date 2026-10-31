@@ -1188,6 +1188,9 @@
   let remotoListo = false;   // la primera lectura no festeja goles viejos
   let videosYT = [], videosKey = "";   // videos del canal de YouTube (llegan con los resultados en vivo)
   const golesNuevos = [];
+  // El veedor cargado en data.js (la lista de la organización) manda sobre el de la carga en vivo:
+  // si alguien carga como admin, no cambia el veedor del partido.
+  const vDe = (p) => p._v || (p._v = { veedor: p.veedor || "", veedorEq: p.veedorEq || "" });
   function aplicarRemoto(r) {
     if (!r || !r.partidos) return false;
     let cambio = false;
@@ -1198,7 +1201,7 @@
       if (p.manual) return;   // resultado cargado a mano en data.js: la planilla en vivo no lo pisa
       const nuevo = {
         estado: x.estado, golesLocal: num(x.gl), golesVisitante: num(x.gv),
-        goles: x.goles || [], tarjetas: x.tarjetas || [], veedor: x.veedor || p.veedor, veedorEq: x.veedorEq || p.veedorEq, mvp: x.mvp || p.mvp,
+        goles: x.goles || [], tarjetas: x.tarjetas || [], veedor: vDe(p).veedor || x.veedor || "", veedorEq: vDe(p).veedorEq || x.veedorEq || "", mvp: x.mvp || p.mvp,
         penales: num(x.pl) != null && num(x.pv) != null ? { local: num(x.pl), visitante: num(x.pv) } : undefined
       };
       const antes = JSON.stringify([p.estado, p.golesLocal, p.golesVisitante, p.goles, p.tarjetas, p.veedor, p.veedorEq, p.mvp, p.penales]);
