@@ -75,14 +75,15 @@
   /* ---------------- cálculos ---------------- */
   // Tabla de una zona: 3 pts victoria, 1 empate.
   // Desempate: puntos, diferencia de gol, fair play (rojas, amarillas, azules; menos es mejor), orden alfabético.
-  function tablaZona(zona) {
+  // conVivo: suma también los partidos que se están jugando, con el marcador del momento (para "Así quedaría hoy").
+  function tablaZona(zona, conVivo) {
     const filas = {};
     equipos().filter((e) => e.zona === zona).forEach((e) => {
       filas[e.id] = { id: e.id, pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0, dg: 0, ro: 0, am: 0, az: 0, pts: 0 };
     });
     partidos().filter((p) => p.fase === "Zona" && p.zona === zona).forEach((p) => {
       (p.tarjetas || []).forEach((t) => { const f = filas[t.e]; if (f) { if (esRoja(t)) f.ro++; else if (esAzul(t)) f.az++; else f.am++; } });
-      if (!jugado(p)) return;
+      if (!jugado(p) && !(conVivo && enVivo(p) && p.golesLocal != null && p.golesVisitante != null)) return;
       const l = filas[p.local], v = filas[p.visitante];
       if (!l || !v) return;
       l.pj++; v.pj++;
@@ -113,7 +114,7 @@
     const zs = zonas();
     if (!zs.length) return [];
     const lista = [];
-    zs.forEach((z) => tablaZona(z).forEach((f, i) => lista.push({ ...f, pos: i + 1, zona: z })));
+    zs.forEach((z) => tablaZona(z, true).forEach((f, i) => lista.push({ ...f, pos: i + 1, zona: z })));
     return lista.sort((a, b) => a.pos - b.pos || b.pts - a.pts || b.dg - a.dg || cmpFP(a, b) ||
       equipo(a.id).nombre.localeCompare(equipo(b.id).nombre, "es"));
   }
@@ -675,7 +676,7 @@
       <div class="res-top"><span>${esc(c.nombre || "")}</span>${ok ? '<span class="tag">FINAL</span>' : ""}</div>
       ${fila(rc.local, ok ? p.golesLocal : null, pe.local, p ? p.local : null)}
       ${fila(rc.visitante, ok ? p.golesVisitante : null, pe.visitante, p ? p.visitante : null)}
-      ${p ? `<p class="veedor">${p.fecha ? [fechaCorta(p.fecha), p.hora, p.cancha].filter(Boolean).map(esc).join(" · ") : "— A definir"}</p>` : ""}
+      ${p ? `<p class="veedor">${p.fecha ? [fechaCorta(p.fecha), p.hora, p.cancha].filter(Boolean).map(esc).join(" · ") : p.hora ? `${esc(p.hora)} hs · ${p.cancha ? esc(p.cancha) : "Cancha a definir"}` : "Horario y cancha a definir"}</p>` : ""}
     </article>`;
   }
 
@@ -749,6 +750,7 @@
     const r1 = copa.rondas && copa.rondas[0];
     if (!r1) return "";
     const rk = rankingParcial();
+    const vivos = partidos().filter((p) => p.fase === "Zona" && enVivo(p)).length;
     const pj = partidos().filter((p) => p.fase === "Zona" && jugado(p)).length, tot = partidos().filter((p) => p.fase === "Zona").length;
     const lado = (slot) => {
       const m = /^#(\d+)$/.exec(slot || "");
@@ -763,7 +765,7 @@
       return `<article class="aq-c" style="--c1:var(--oro-t)"><div class="aq-t">${esc(c.nombre || "")}</div>${lado(sl)}<div class="aq-vs">vs</div>${lado(sv)}</article>`;
     }).join("");
     return `<section class="aq"><p class="kicker">Si las zonas terminaran hoy</p><h3 class="titulo-sec">Así quedaría ${esc(copa.copa)}</h3>
-      <p class="aq-nota">Cruces de ${esc((r1.nombre || "").toLowerCase())} según las posiciones de hoy (${pj} de ${tot} partidos de zona jugados). Cambia con cada resultado.</p>
+      <p class="aq-nota">Cruces de ${esc((r1.nombre || "").toLowerCase())} según las posiciones de hoy (${pj} de ${tot} partidos de zona jugados${vivos ? ` y ${vivos} en juego, con el marcador de este momento` : ""}). Cambia con cada gol.</p>
       <div class="aq-grid">${cruces}</div></section>`;
   }
 

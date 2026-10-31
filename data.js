@@ -568,14 +568,14 @@ window.LIGA_DATA = {
     // ----- Playoffs (equipos por definir) -----
     // Cuadro de arriba hacia abajo: Cuartos 1 y 2 van a la Semi 1; Cuartos 3 y 4 a la Semi 2.
     // Oro: C1 = 1 vs 8, C2 = 4 vs 5, C3 = 2 vs 7, C4 = 3 vs 6. Plata: C1 = 9 vs 16, C2 = 12 vs 13, C3 = 10 vs 15, C4 = 11 vs 14.
-    // Día, horario y cancha: "" = "A definir" (se cargan semana a semana; los mejores clasificados, en los horarios más tarde).,
-    { id: "m25", fase: "Cuartos Oro", fecha: "", hora: "", cancha: "",
+    // Día, horario y cancha: "" = "a definir" (se cargan semana a semana; los mejores clasificados, en los horarios más tarde: 1v8 y 2v7 de Oro a las 16).,
+    { id: "m25", fase: "Cuartos Oro", fecha: "", hora: "16:00", cancha: "",
       local: "#1", visitante: "#8", golesLocal: null, golesVisitante: null,
       goles: [], tarjetas: [] },
     { id: "m26", fase: "Cuartos Oro", fecha: "", hora: "", cancha: "",
       local: "#4", visitante: "#5", golesLocal: null, golesVisitante: null,
       goles: [], tarjetas: [] },
-    { id: "m27", fase: "Cuartos Oro", fecha: "", hora: "", cancha: "",
+    { id: "m27", fase: "Cuartos Oro", fecha: "", hora: "16:00", cancha: "",
       local: "#2", visitante: "#7", golesLocal: null, golesVisitante: null,
       goles: [], tarjetas: [] },
     { id: "m28", fase: "Cuartos Oro", fecha: "", hora: "", cancha: "",
