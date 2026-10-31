@@ -1007,6 +1007,7 @@
       case "historial": html = vistaHistorial(); break;
       case "agregados": html = vistaAgregados(); break;
       case "demo-gol": html = vistaInicio(); esperarIntro(demoGol); break;
+      case "demo-tarjeta": html = vistaInicio(); esperarIntro(demoTarjeta); break;
       default: html = vistaInicio();
     }
     document.getElementById("app").innerHTML = html;
@@ -1014,7 +1015,7 @@
     const tk = document.getElementById("ticker");
     if (tk) { const h = cintaHtml(); if (tk._h !== h) { tk._h = h; tk.innerHTML = h; } tk.hidden = !h; }
     tickCuenta();
-    const activa = { equipo: "equipos", jugador: "equipos", "demo-gol": "inicio" }[pagina] || pagina || "inicio";
+    const activa = { equipo: "equipos", jugador: "equipos", "demo-gol": "inicio", "demo-tarjeta": "inicio" }[pagina] || pagina || "inicio";
     document.querySelectorAll("#nav a, #tabbar a").forEach((a) => a.classList.toggle("on", a.dataset.p === activa));
     const mas = document.getElementById("mas");
     if (mas) { mas.open = false; mas.classList.toggle("on", ["equipos", "estadisticas", "historial", "agregados"].includes(activa)); }
@@ -1087,7 +1088,36 @@
     </div>`;
   }
 
+  /* Tarjetas: misma interacción que el gol, con el fondo del color de la tarjeta. */
+  const TARJ = {
+    A: { titulo: "¡AMARILLA!", fondo: "radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.18),rgba(0,0,0,0) 70%),linear-gradient(120deg,#ffd60a,#c99700)", tinta: "#1a1400" },
+    R: { titulo: "¡ROJA!", fondo: "radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.3),rgba(0,0,0,0) 70%),linear-gradient(120deg,#e5342c,#7d0f0a)", tinta: "#fff" },
+    Z: { titulo: "¡AZUL!", fondo: "radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.3),rgba(0,0,0,0) 70%),linear-gradient(120deg,#2f8fe0,#0b3d7a)", tinta: "#fff" }
+  };
+  const tipoTarj = (t) => (esRoja(t) ? "R" : esAzul(t) ? "Z" : "A");
+  function mostrarTarjeta(ev) {
+    const p = partidos().find((x) => x.id === ev.id), e = equipo(ev.e), j = ev.j ? jugador(ev.j) : null, k = TARJ[ev.t] || TARJ.A;
+    if (!p || !e) return;
+    const marc = `${esc((equipo(p.local) || {}).nombre || "")} <b>${esc(p.golesLocal)}</b> – <b>${esc(p.golesVisitante)}</b> ${esc((equipo(p.visitante) || {}).nombre || "")}`;
+    const cuerpo = `<div class="gfx-in"><div class="gfx-tarj gfx-tarj-${ev.t}" aria-hidden="true"></div>
+        <div class="gfx-esc${j && j.foto ? " con-foto" : ""}">${j && j.foto ? `<img class="gfx-foto" src="${esc(j.foto)}" alt="${esc(j.nombre)}">${badge(e, "chico")}` : badge(e, "grande")}</div>
+        <div class="gfx-t" style="color:${k.tinta}"><strong>${k.titulo}</strong><span class="gfx-eq" style="color:${k.tinta}">${esc(e.nombre)}</span>${j ? `<span class="gfx-j">${esc(j.nombre)}</span>` : ""}<span class="gfx-m">${marc}</span></div></div>`;
+    lanzarFx(p, cuerpo, k.fondo, "gfx gfx-card" + (ev.t === "A" ? " claro" : ""));
+  }
+  function lanzarFx(p, cuerpo, fondo, clase) {
+    const cards = [...document.querySelectorAll(`.mt[data-id="${p.id}"]`)];
+    const card = cards.find((c) => { const r = c.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; }) || null;
+    const ov = document.createElement("div");
+    ov.className = clase + (card ? "" : " gfx-toast");
+    ov.style.background = fondo;
+    ov.innerHTML = cuerpo;
+    (card || document.body).appendChild(ov);
+    setTimeout(() => ov.classList.add("sale"), 4300);
+    setTimeout(() => ov.remove(), 4900);
+  }
+
   function festejarUno(ev) {
+    if (ev.t) return mostrarTarjeta(ev);
     const p = partidos().find((x) => x.id === ev.id), e = equipo(ev.e), j = ev.j ? jugador(ev.j) : null;
     if (!p || !e) return;
     const marc = `${esc((equipo(p.local) || {}).nombre || "")} <b>${esc(p.golesLocal)}</b> – <b>${esc(p.golesVisitante)}</b> ${esc((equipo(p.visitante) || {}).nombre || "")}`;
@@ -1124,6 +1154,16 @@
   function esperarIntro(fn) {
     const t = () => (document.getElementById("intro") ? setTimeout(t, 300) : setTimeout(fn, 700));
     t();
+  }
+  function demoTarjeta() {
+    // Simulación: una amarilla, una roja y una azul en los primeros resultados.
+    const cards = [...document.querySelectorAll(".mt.fin[data-id]")].slice(0, 3);
+    festejar(cards.map((c, i) => {
+      const p = partidos().find((x) => x.id === c.dataset.id);
+      const e = i === 1 ? p.visitante : p.local;
+      const j = (jugadores().find((x) => x.equipo === e) || {}).id || "";
+      return { id: p.id, e, j, t: ["A", "R", "Z"][i] };
+    }));
   }
   function demoGol() {
     // Simulación: un gol en el primer resultado y, después, uno en el de al lado.
@@ -1162,9 +1202,10 @@
         penales: num(x.pl) != null && num(x.pv) != null ? { local: num(x.pl), visitante: num(x.pv) } : undefined
       };
       const antes = JSON.stringify([p.estado, p.golesLocal, p.golesVisitante, p.goles, p.tarjetas, p.veedor, p.veedorEq, p.mvp, p.penales]);
-      const prevN = (p.goles || []).length;
+      const prevN = (p.goles || []).length, prevT = (p.tarjetas || []).length;
       Object.assign(p, nuevo);
       if (remotoListo && nuevo.goles.length > prevN) nuevo.goles.slice(prevN).forEach((g) => golesNuevos.push({ id: p.id, e: g.e, j: g.j }));
+      if (remotoListo && nuevo.tarjetas.length > prevT) nuevo.tarjetas.slice(prevT).forEach((t) => golesNuevos.push({ id: p.id, e: t.e, j: t.j, t: tipoTarj(t) }));
       if (antes !== JSON.stringify([p.estado, p.golesLocal, p.golesVisitante, p.goles, p.tarjetas, p.veedor, p.veedorEq, p.mvp, p.penales])) cambio = true;
     });
     return cambio;

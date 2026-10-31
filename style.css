@@ -833,3 +833,19 @@ html{scrollbar-width:thin;scrollbar-color:#3a352e #0b0a09}
 @media (max-width:560px){.gfx-foto{width:80px;height:80px}.gfx-esc.con-foto .badge{width:30px;height:30px}}
 
 .tit-fecha{font-family:var(--texto);font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--oro-t);background:var(--hoja);border:1px solid var(--linea);border-radius:999px;padding:.25rem .7rem;white-space:nowrap}
+
+/* Tarjetas en vivo: tarjeta que entra girando + fondo del color */
+.gfx-card .gfx-t strong{letter-spacing:.04em}
+.gfx-card.claro .gfx-t{text-shadow:none}
+.gfx-card.claro .gfx-m b{color:#1a1400}
+.gfx-tarj{width:46px;height:64px;border-radius:6px;flex:0 0 auto;box-shadow:0 8px 18px rgba(0,0,0,.45),inset 0 0 0 2px rgba(255,255,255,.55);animation:tarjSale .7s cubic-bezier(.2,1.5,.4,1) both,tarjBate 1.4s ease-in-out .7s infinite}
+.gfx-tarj-A{background:linear-gradient(160deg,#fff36b,#f2c200)}
+.gfx-tarj-R{background:linear-gradient(160deg,#ff6b5e,#c4170f)}
+.gfx-tarj-Z{background:linear-gradient(160deg,#7cc0ff,#1f6fd1)}
+@keyframes tarjSale{from{transform:translateY(-60%) rotate(-35deg) scale(.4);opacity:0}to{transform:rotate(-8deg);opacity:1}}
+@keyframes tarjBate{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(6deg) translateY(-4px)}}
+@media (max-width:560px){.gfx-tarj{width:34px;height:48px}}
+@media (prefers-reduced-motion:reduce){.gfx-tarj{animation:none!important;transform:rotate(-8deg)}}
+.gfx-card .gfx-t{min-width:0}
+.gfx-card .gfx-t strong{font-size:2.6rem}
+@media (max-width:560px){.gfx-card .gfx-t strong{font-size:2rem}}
