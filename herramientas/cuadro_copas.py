@@ -48,10 +48,14 @@ async def main():
         b = await p.chromium.launch()
         for idx, nombre, glow, sub in [(0,"oro","200,147,42","Puestos <b>1 al 8</b> del ranking general"),(1,"plata","190,196,204","Puestos <b>9 al 16</b> del ranking general")]:
             pg = await b.new_page(viewport={"width":1600,"height":1000}, device_scale_factor=2)
-            await pg.route("**/script.google.com/**", lambda r: r.abort())
+            if os.environ.get("ESTADO"):  # JSON de ?accion=estado guardado en un archivo
+                _est = open(os.environ["ESTADO"]).read()
+                await pg.route("**/script.google.com/**", lambda r: r.fulfill(status=200, content_type="application/json", body=_est))
+            else:
+                await pg.route("**/script.google.com/**", lambda r: r.abort())
             await pg.route("**/fonts.googleapis.com/**", lambda r: r.abort())
             await pg.goto("http://localhost:8765/index.html#/copas")
-            await pg.wait_for_timeout(500)
+            await pg.wait_for_timeout(2500 if os.environ.get("ESTADO") else 500)
             await pg.evaluate("document.getElementById('intro')&&document.getElementById('intro').remove()")
             await pg.click(f"button[data-copa='{idx}']"); await pg.wait_for_timeout(300)
             await pg.add_style_tag(content=CSS)
@@ -62,7 +66,7 @@ async def main():
               P.innerHTML = `<i class="franja"></i><header class="p-cab"><img src="img/logo-copa.png" alt=""><div class="p-tit"><span class="p-k">Copa Pride 2026 · 3ª edición · Eliminatorias</span><h1 class="p-h">Copa ${nombre === 'oro' ? 'Oro' : 'Plata'}</h1><span class="p-s">${sub} · Cuartos, semis, final y 3er puesto</span></div></header>`;
               P.appendChild(br);
               const pie = document.createElement('footer'); pie.className = 'p-pie';
-              pie.innerHTML = `<p><b>Días, horarios y canchas: a definir.</b> Los cruces se completan al terminar la fase de zonas.</p><div class="der"><span class="lema">Juntxs por el deporte</span><img src="img/liga-pride.png" alt=""></div>`;
+              pie.innerHTML = `<p><b>Cuartos: sábado 14/11.</b> Canchas a definir. Semis 28/11 · Final y 3er puesto 12/12.</p><div class="der"><span class="lema">Juntxs por el deporte</span><img src="img/liga-pride.png" alt=""></div>`;
               P.appendChild(pie); document.body.appendChild(P);
               window.dispatchEvent(new Event('resize'));
             }""", [nombre, glow, sub])
