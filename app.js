@@ -74,7 +74,7 @@
 
   /* ---------------- cálculos ---------------- */
   // Tabla de una zona: 3 pts victoria, 1 empate.
-  // Desempate: puntos, diferencia de gol, fair play (rojas, amarillas, azules; menos es mejor), goles a favor, orden alfabético.
+  // Desempate: puntos, diferencia de gol, fair play (rojas, amarillas, azules; menos es mejor), orden alfabético.
   // conVivo: suma también los partidos que se están jugando, con el marcador del momento (para "Así quedaría hoy").
   function tablaZona(zona, conVivo) {
     const filas = {};
@@ -94,7 +94,7 @@
       else { l.pe++; v.pe++; l.pts++; v.pts++; }
     });
     return Object.values(filas).map((f) => ({ ...f, dg: f.gf - f.gc })).sort((a, b) =>
-      b.pts - a.pts || b.dg - a.dg || cmpFP(a, b) || b.gf - a.gf ||
+      b.pts - a.pts || b.dg - a.dg || cmpFP(a, b) ||
       equipo(a.id).nombre.localeCompare(equipo(b.id).nombre, "es"));
   }
 
@@ -105,7 +105,7 @@
     if (!zs.length || !zs.every(zonaCompleta)) return null;
     const lista = [];
     zs.forEach((z) => tablaZona(z).forEach((f, i) => lista.push({ ...f, pos: i + 1 })));
-    return lista.sort((a, b) => a.pos - b.pos || b.pts - a.pts || b.dg - a.dg || cmpFP(a, b) || b.gf - a.gf ||
+    return lista.sort((a, b) => a.pos - b.pos || b.pts - a.pts || b.dg - a.dg || cmpFP(a, b) ||
       equipo(a.id).nombre.localeCompare(equipo(b.id).nombre, "es"));
   }
 
@@ -115,7 +115,7 @@
     if (!zs.length) return [];
     const lista = [];
     zs.forEach((z) => tablaZona(z, true).forEach((f, i) => lista.push({ ...f, pos: i + 1, zona: z })));
-    return lista.sort((a, b) => a.pos - b.pos || b.pts - a.pts || b.dg - a.dg || cmpFP(a, b) || b.gf - a.gf ||
+    return lista.sort((a, b) => a.pos - b.pos || b.pts - a.pts || b.dg - a.dg || cmpFP(a, b) ||
       equipo(a.id).nombre.localeCompare(equipo(b.id).nombre, "es"));
   }
 
@@ -656,7 +656,7 @@
       ${(() => { const j = partidos().filter((p) => p.fase === "Zona" && jugado(p)), t = partidos().filter((p) => p.fase === "Zona").length;
         return resumen([[equipos().length, "equipos"], [`${j.length}<small>/${t}</small>`, "partidos jugados"], [j.reduce((s, p) => s + (p.golesLocal || 0) + (p.golesVisitante || 0), 0), "goles"]]); })()}
       <div class="zonas-grid">${bloques}</div>
-      <p class="leyenda">Desempate: puntos · diferencia de gol · fair play (menos rojas, después amarillas, después azules) · goles a favor · orden alfabético. La columna FP muestra rojas-amarillas-azules.</p>`;
+      <p class="leyenda">Desempate: puntos · diferencia de gol · fair play (menos rojas, después amarillas, después azules) · orden alfabético. La columna FP muestra rojas-amarillas-azules.</p>`;
   }
 
   const estadoCopa = { i: 0 };
