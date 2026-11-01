@@ -564,7 +564,7 @@ window.LIGA_DATA = {
 
     { id: "m24", fase: "Zona", zona: "C", fecha: "2026-10-31", hora: "16:00", cancha: "Cancha 3",
       local: "e11", visitante: "e8", golesLocal: null, golesVisitante: null,
-      veedor: "Fran", veedorEq: "e13",
+      veedor: "Alex", veedorEq: "e13",
       goles: [], tarjetas: [] },
 
     // ----- Playoffs (equipos por definir) -----
@@ -635,7 +635,9 @@ window.LIGA_DATA = {
   // ---------------------------------------------------------------
   veedores: [],
 
-  suspendidos: [],
+  suspendidos: [
+    { j: "p149", motivo: "Roja vs Tigres (Fecha 3) · pierde al menos el próximo partido" }
+  ],
 
   // ---------------------------------------------------------------
   // LLAVES de las dos copas. Cada cruce apunta a un partido de la lista

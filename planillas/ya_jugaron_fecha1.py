@@ -48,3 +48,15 @@ FECHA2 = {
 for _e, _l in FECHA2.items():
     A_MANO.setdefault(_e, [])
     A_MANO[_e] += [x for x in _l if x not in A_MANO[_e]]
+
+# ----- Fecha 3 (31/10), leído de las planillas: jugadores que jugaron por PRIMERA vez -----
+FECHA3 = {
+  "e9":  ["p42", "p45"],   # Red Aguará: Matías Hernán Saavedra, Mario Rene Gutierrez
+  "e10": ["p50"],          # Yacares BA: Felipe Pereyra
+  "e12": ["p343"],         # Grindr: Brian Flores
+  "e14": ["p211"],         # Fenix: Gustavo Fabian
+  "e6":  ["p29", "p111"],  # Crisol: Adolfo Ariel Valdez, Cristian Nuñez
+}
+for _e, _l in FECHA3.items():
+    A_MANO.setdefault(_e, [])
+    A_MANO[_e] += [x for x in _l if x not in A_MANO[_e]]
