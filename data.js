@@ -647,9 +647,9 @@ window.LIGA_DATA = {
     { copa: "Copa Oro", descripcion: "Puestos 1 al 8 del ranking general", rondas: [
       { nombre: "Cuartos de final", cruces: [
         { id: "OC1", nombre: "Cuartos Oro 1", partidoId: "m25" },
-        { id: "OC2", nombre: "Cuartos Oro 2", partidoId: "m26" },
-        { id: "OC3", nombre: "Cuartos Oro 3", partidoId: "m27" },
-        { id: "OC4", nombre: "Cuartos Oro 4", partidoId: "m28" }
+        { id: "OC2", nombre: "Cuartos Oro 4", partidoId: "m26" },
+        { id: "OC3", nombre: "Cuartos Oro 2", partidoId: "m27" },
+        { id: "OC4", nombre: "Cuartos Oro 3", partidoId: "m28" }
       ] },
       { nombre: "Semifinales", cruces: [
         { id: "OS1", nombre: "Semi Oro 1", partidoId: "m33" },
@@ -663,9 +663,9 @@ window.LIGA_DATA = {
     { copa: "Copa Plata", descripcion: "Puestos 9 al 16 del ranking general", rondas: [
       { nombre: "Cuartos de final", cruces: [
         { id: "PC1", nombre: "Cuartos Plata 1", partidoId: "m29" },
-        { id: "PC2", nombre: "Cuartos Plata 2", partidoId: "m30" },
-        { id: "PC3", nombre: "Cuartos Plata 3", partidoId: "m31" },
-        { id: "PC4", nombre: "Cuartos Plata 4", partidoId: "m32" }
+        { id: "PC2", nombre: "Cuartos Plata 4", partidoId: "m30" },
+        { id: "PC3", nombre: "Cuartos Plata 2", partidoId: "m31" },
+        { id: "PC4", nombre: "Cuartos Plata 3", partidoId: "m32" }
       ] },
       { nombre: "Semifinales", cruces: [
         { id: "PS1", nombre: "Semi Plata 1", partidoId: "m35" },
