@@ -19,6 +19,22 @@ _f = os.path.join(AQUI, "ya_jugaron.json")
 if os.path.exists(_f):
     for _l in json.load(open(_f, encoding="utf-8")).values(): YA.update(_l)
 
+# ---- Eliminatorias ----
+# Jugadores que NO jugaron ningún partido de grupos: no pueden jugar playoffs, no van en la planilla (lista de Fer, 11/11).
+NO_HABILITADOS = {
+    "p82", "p85", "p93",   # Tigres: Cristian Caporaso, Brayan José Reyes, Darío Hernán Toloza
+    "p125",                # Impulse: Martín Pérez
+    "p68",                 # Fenix: Cristian Chaile
+    "p113",                # Crisol: Mariano Buera
+    "p121",                # Panteras KFC: Rodrigo Juan
+    "p21", "p23",          # Dogos: Miguel Daolio, Nicolás Crusco
+    "p325", "p328",        # Cruzados: Milton Rivas, Alberto Ozuna
+    "p300", "p344",        # FGR: Luis Guantay, Brian Oliva
+}
+# Suspendidos (salen en la planilla tachados, con la leyenda). Sale de "suspendidos" en data.js.
+SUSP = {x["j"] for x in datos.get("susp", [])}
+PLAYOFF = False   # en playoffs no va la columna JUGÓ y se sacan los no habilitados
+
 ORO = HexColor("#C9A227"); NEGRO = HexColor("#111111"); GRIS = HexColor("#9a9a9a"); GRISCLARO = HexColor("#f1f1f1")
 W, H = landscape(A4)
 M = 8 * mm
@@ -56,6 +72,9 @@ def tabla(c, x0, ytop, ancho, eid, filas=16):
     c.line(fx + 47 * mm, ytop - 6.3 * mm, fx + 65.5 * mm, ytop - 6.3 * mm)
     # columnas
     cols = [("Nº", 9), ("Nombre y apellido", 58), ("JUGÓ", 11), ("GOLES (palitos)", 21), ("AMAR.", 11), ("ROJA", 11), ("AZUL", 11)]
+    if PLAYOFF: cols = [("Nº", 9), ("Nombre y apellido", 66), ("GOLES (palitos)", 24), ("AMAR.", 11), ("ROJA", 11), ("AZUL", 11)]
+    iJ = None if PLAYOFF else 2          # columna JUGÓ
+    iG = 2 if PLAYOFF else 3             # columna GOLES
     tot = sum(w for _, w in cols); esc_f = ancho / mm / tot
     xs = [x0]
     for _, w in cols: xs.append(xs[-1] + w * esc_f * mm)
@@ -68,23 +87,32 @@ def tabla(c, x0, ytop, ancho, eid, filas=16):
         else: c.drawCentredString(cx, yh - 4.3 * mm, t)
     # filas
     alto = 6.35 * mm
-    jug = PL.get(eid, [])
+    jug = [x for x in PL.get(eid, []) if not (PLAYOFF and x[0] in NO_HABILITADOS)]
     y = yh - 6.5 * mm
     for r in range(filas):
         yb = y - alto
         c.setLineWidth(0.4); c.setStrokeColor(GRIS); c.line(x0, yb, x0 + ancho, yb)
         pid, nom = jug[r] if r < len(jug) else ("", "")
         c.setFillColor(black); c.setFont("Helvetica", 9 if len(nom) < 26 else 7.5)
-        if nom: c.drawString(xs[1] + 1.5 * mm, yb + 2.2 * mm, nom)
         s = 4.2 * mm
         cy = yb + (alto - s) / 2
-        if pid in YA:
-            c.setFillColor(black); c.setLineWidth(0.7); c.setStrokeColor(black); c.rect((xs[2] + xs[3]) / 2 - s / 2, cy, s, s, fill=1, stroke=1); c.setFillColor(black)
-        else:
-            box(c, (xs[2] + xs[3]) / 2 - s / 2, cy)
-        bw = (xs[4] - xs[3]) - 4 * mm
-        c.setLineWidth(0.7); c.setStrokeColor(black); c.rect(xs[3] + 2 * mm, yb + 0.9 * mm, bw, alto - 1.8 * mm, fill=0)
-        for i in (4, 5, 6): box(c, (xs[i] + xs[i + 1]) / 2 - s / 2, cy)
+        if pid in SUSP:
+            # suspendido: nombre tachado, sin casilleros, con la leyenda
+            c.setFillColor(GRISCLARO); c.rect(x0, yb, ancho, alto, fill=1, stroke=0)
+            c.setFillColor(black); c.drawString(xs[1] + 1.5 * mm, yb + 2.2 * mm, nom)
+            tw = c.stringWidth(nom, c._fontname, c._fontsize)
+            c.setStrokeColor(black); c.setLineWidth(0.9); c.line(xs[1] + 1 * mm, yb + 3.1 * mm, xs[1] + 2 * mm + tw, yb + 3.1 * mm)
+            c.setFont("Helvetica-Bold", 8.5); c.drawCentredString((xs[iG] + xs[-1]) / 2, yb + 2.2 * mm, "SUSPENDIDO · NO PUEDE JUGAR")
+            y = yb; continue
+        if nom: c.drawString(xs[1] + 1.5 * mm, yb + 2.2 * mm, nom)
+        if iJ is not None:
+            if pid in YA:
+                c.setFillColor(black); c.setLineWidth(0.7); c.setStrokeColor(black); c.rect((xs[2] + xs[3]) / 2 - s / 2, cy, s, s, fill=1, stroke=1); c.setFillColor(black)
+            else:
+                box(c, (xs[2] + xs[3]) / 2 - s / 2, cy)
+        bw = (xs[iG + 1] - xs[iG]) - 4 * mm
+        c.setLineWidth(0.7); c.setStrokeColor(black); c.rect(xs[iG] + 2 * mm, yb + 0.9 * mm, bw, alto - 1.8 * mm, fill=0)
+        for i in (iG + 1, iG + 2, iG + 3): box(c, (xs[i] + xs[i + 1]) / 2 - s / 2, cy)
         y = yb
     # líneas verticales
     c.setStrokeColor(GRIS); c.setLineWidth(0.4)
@@ -109,7 +137,8 @@ def hoja(c, p):
     fecha = FECHAS.get(p["fecha"], p["fase"]); dia = DIAS.get(p["fecha"], p["fecha"])
     c.setFillColor(black); c.setFont("Helvetica-Bold", 11)
     zona = ("Zona " + p["zona"] + " · ") if p.get("zona") else ""
-    c.drawRightString(W - M, H - 12 * mm, f"{zona}{fecha} · {dia} · {p['hora']} hs · {p['cancha']}")
+    if p.get("cruce"): zona, fecha = "", p["cruce"]
+    c.drawRightString(W - M, H - 12 * mm, f"{zona}{fecha} · {dia} · {p['hora'] or 'Horario a definir'} hs · {p['cancha'] or 'Cancha a definir'}".replace("a definir hs", "a definir"))
     c.setFont("Helvetica-Bold", 10); c.drawRightString(W - M - 62 * mm, H - 20.5 * mm, "Veedor/a:")
     c.setStrokeColor(black); c.setLineWidth(0.7); c.line(W - M - 60 * mm, H - 21 * mm, W - M, H - 21 * mm)
     vn = p.get("veedor") or ""; ve = nombre_equipo(p["veedorEq"]) if p.get("veedorEq") else ""
@@ -150,7 +179,7 @@ def hoja(c, p):
     # instrucción
     c.setStrokeColor(black); c.setLineWidth(1.2); c.line(M, 8 * mm, W - M, 8 * mm)
     c.setFillColor(black); c.setFont("Helvetica-Bold", 8)
-    c.drawCentredString(W / 2, 3.8 * mm, "JUGÓ en negro = ya jugó antes. GOLES: palitos (la banda cierra el 5). TARJETAS: tildá el casillero. El resultado final va en el recuadro grande.")
+    c.drawCentredString(W / 2, 3.8 * mm, ("Si termina empatado se define por penales: anotá el resultado de la serie en Incidencias. " if PLAYOFF else "JUGÓ en negro = ya jugó antes. ") + "GOLES: palitos (la banda cierra el 5). TARJETAS: tildá el casillero.")
 
 def pdf(nombre, partidos):
     c = canvas.Canvas(os.path.join(AQUI, nombre), pagesize=landscape(A4))
@@ -160,6 +189,15 @@ def pdf(nombre, partidos):
     c.save(); print(nombre, len(partidos), "hojas")
 
 if __name__ == "__main__":
+    # Cuartos 14/11: equipos resueltos (ranking final de zonas, criterio Winner).
+    PLAYOFF = True
+    CRUCES = {"m25": ("e1", "e16"), "m27": ("e13", "e8"), "m28": ("e5", "e12"), "m26": ("e9", "e6"),
+              "m29": ("e14", "e7"), "m31": ("e2", "e3"), "m32": ("e10", "e4"), "m30": ("e15", "e11")}
+    NOM = {c["partidoId"]: c["nombre"] for c in datos.get("cruces", [])}
+    orden = ["m25", "m27", "m28", "m26", "m29", "m31", "m32", "m30"]   # Oro 1-4, Plata 1-4
     P = {p["id"]: p for p in datos["pa"]}
-    for fecha, nom in (("2026-10-31", "Planillas_Fecha3_31-10.pdf"),):   # una fecha por vez: se agregan jugadores nuevos antes de generar la siguiente
-        pdf(nom, [p for p in datos["pa"] if p["fecha"] == fecha])
+    lista = []
+    for m in orden:
+        p = dict(P[m]); p["local"], p["visitante"] = CRUCES[m]; p["cruce"] = NOM.get(m, p["fase"]); p.pop("zona", None)
+        lista.append(p)
+    pdf("Planillas_Cuartos_14-11.pdf", lista)
