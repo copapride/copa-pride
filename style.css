@@ -847,3 +847,46 @@ html{scrollbar-width:thin;scrollbar-color:#3a352e #0b0a09}
 /* Cuadro de copas: puesto con el que llegó cada equipo */
 .fe .pto{flex:0 0 auto;font-size:.8rem;font-weight:700;color:var(--oro-t);margin-left:-.15rem;margin-right:auto;font-variant-numeric:tabular-nums}
 .fe .n{flex:0 1 auto}
+
+/* ---------- Mejoras nov 2026 ---------- */
+/* Suspendidos en la tarjeta del próximo partido */
+.susp{font-size:.8rem;padding:.3rem .55rem;margin:.1rem 0 .25rem;border-left:3px solid #e5484d;background:rgba(229,72,77,.09);color:var(--tinta)}
+.susp b{color:#ff8a8d;font-weight:700}
+.susp a{text-decoration:underline;text-decoration-color:#e5484d;text-underline-offset:3px}
+.susp small{color:var(--tinta-2)}
+/* Ranking general 1-16 */
+.rk{margin-top:1.6rem;scroll-margin-top:4rem}
+.rk-t td,.rk-t th{white-space:nowrap}
+.rk-t .rk-eq{display:flex;flex-direction:column;gap:.1rem;min-width:0;text-align:left}
+.rk-t .rk-eq b{font-weight:700}
+.rk-t .rk-eq small{color:var(--tinta-2);font-size:.72rem;font-weight:500;white-space:normal}
+.rk-t .rk-vs{font-style:normal;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--oro-t)}
+.rk-t td{padding-block:.5rem}
+.rk-t tr.rk-corte td{border-top:2px solid var(--oro-osc)}
+/* Estadísticas: accesos rápidos */
+.est-ir{position:sticky;top:0;z-index:5;margin:0 0 1.2rem;padding:.55rem 0;background:linear-gradient(var(--papel) 78%,transparent)}
+.est-sec{scroll-margin-top:4.2rem}
+@media (max-width:900px){.est-ir{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-1rem;padding-inline:1rem}.est-ir::-webkit-scrollbar{display:none}.est-ir .chip{flex:0 0 auto}}
+/* Buscador de equipos y jugadores */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.buscar{display:block;margin:0 0 1rem}
+.buscar input{width:100%;font:inherit;font-size:1rem;color:var(--tinta);background:var(--hoja);border:1px solid var(--linea);border-radius:999px;padding:.75rem 1.1rem;outline:0}
+.buscar input:focus{border-color:var(--oro)}
+.buscar input::placeholder{color:var(--tinta-2)}
+.busq{display:grid;gap:.4rem;margin:0 0 1.4rem}
+.bq{display:flex;align-items:center;gap:.65rem;padding:.55rem .75rem;background:var(--hoja);border:1px solid var(--linea);border-left:4px solid var(--oro-osc);border-radius:4px}
+.bq b{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bq small{margin-left:auto;color:var(--tinta-2);font-size:.75rem;white-space:nowrap}
+.bq-nada{color:var(--tinta-2);padding:.4rem 0}
+/* Plantel: etiquetas, y en el celu una lista compacta en vez de tarjetas gigantes */
+.tj-tag{color:var(--oro-t)}.tj-tag.rojo{color:#ff8a8d}
+@media (max-width:560px){
+  .grid.plantel{grid-template-columns:1fr;gap:.4rem}
+  .grid.plantel .tarjeta{flex-direction:row;align-items:center;text-align:left;gap:.75rem;padding:.55rem .75rem}
+  .grid.plantel .tarjeta .badge.grande{width:42px!important;height:42px!important;font-size:.85rem!important;margin:0!important;flex:0 0 auto}
+  .grid.plantel .tarjeta .foto{width:42px!important;height:42px!important;object-fit:cover;flex:0 0 auto;filter:none}
+  .grid.plantel .tarjeta h3{font-size:1rem;line-height:1.15}
+  .grid.plantel .tj-txt{min-width:0}
+}
+@media (max-width:560px){.titulo-sec{flex-wrap:wrap;row-gap:.4rem}.tit-fecha{white-space:normal}}
+.rk .zona{max-width:780px}

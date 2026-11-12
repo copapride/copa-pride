@@ -162,7 +162,7 @@
     const c = chipEstado(p);
     const cerrado = !S.admin && c.clase === "final";   // el veedor no vuelve a entrar a un partido finalizado
     return `<button type="button" class="vp ${c.clase}" data-act="abrir" data-id="${esc(p.id)}" ${listo && !cerrado ? "" : "disabled"}>
-      <span class="vp-top"><span>${esc(p.hora)} · ${esc(p.cancha)} · ${esc(A.faseLabel(p))}</span><span class="vp-est">${listo ? c.txt : "Equipos por definir"}</span></span>
+      <span class="vp-top"><span>${esc(p.hora || "Horario a definir")} · ${esc(p.cancha || "Cancha a definir")} · ${esc(A.faseLabel(p))}</span><span class="vp-est">${listo ? c.txt : "Equipos por definir"}</span></span>
       <span class="vp-eq">${equiposTxt(p)}</span></button>`;
   }
 
@@ -312,7 +312,7 @@
     const final = M.estado === "FINAL";
     root.innerHTML = `
       <div class="vbar"><button type="button" class="vbtn chico" data-act="lista">← Inicio</button>
-        <span class="vmeta">${esc(M.p.cancha)} · ${esc(M.p.hora)} · ${esc(A.faseLabel(M.p))}</span>
+        <span class="vmeta">${esc(M.p.cancha || "Cancha a definir")} · ${esc(M.p.hora || "Horario a definir")} · ${esc(A.faseLabel(M.p))}</span>
         <span id="vGuardado" class="vchip ${M.guardado}">${guardadoTxt()}</span></div>
       <div class="vmarc">
         <div class="vm-eq">${esc(nombreEq("L"))}</div>

@@ -527,45 +527,137 @@ window.LIGA_DATA = {
       tarjetas: [] },
 
     // ----- Fecha 3 (sorteo del 15/10) -----
-    { id: "m17", fase: "Zona", zona: "B", fecha: "2026-10-31", hora: "14:00", cancha: "Cancha 1",
-      local: "e12", visitante: "e14", golesLocal: null, golesVisitante: null,
-      veedor: "Gus", veedorEq: "e1",
-      goles: [], tarjetas: [] },
+    { id: "m17", fase: "Zona", manual: true, zona: "B", fecha: "2026-10-31", hora: "14:00", cancha: "Cancha 1",
+      local: "e12", visitante: "e14", golesLocal: 7, golesVisitante: 1,
+      veedor: "Gus", veedorEq: "e1", mvp: "p60",   // cargado en vivo, verificado con la planilla en papel
+      goles: [
+        { j: "p60", e: "e12" },
+        { j: "p60", e: "e12" },
+        { j: "p60", e: "e12" },
+        { j: "p137", e: "e12" },
+        { j: "p137", e: "e12" },
+        { j: "p343", e: "e12" },
+        { j: "p343", e: "e12" },
+        { j: "p210", e: "e14" }
+      ],
+      tarjetas: [] },
 
-    { id: "m18", fase: "Zona", zona: "B", fecha: "2026-10-31", hora: "14:00", cancha: "Cancha 2",
-      local: "e5", visitante: "e3", golesLocal: null, golesVisitante: null,
-      veedor: "Trilles", veedorEq: "e7",
-      goles: [], tarjetas: [] },
+    { id: "m18", fase: "Zona", manual: true, zona: "B", fecha: "2026-10-31", hora: "14:00", cancha: "Cancha 2",
+      local: "e5", visitante: "e3", golesLocal: 4, golesVisitante: 1,
+      veedor: "Trilles", veedorEq: "e7", mvp: "p22",   // cargado en vivo, verificado con la planilla en papel
+      goles: [
+        { j: "p22", e: "e5" },
+        { j: "p95", e: "e5" },
+        { j: "p24", e: "e5" },
+        { j: "p96", e: "e5" },
+        { j: "p312", e: "e3" }
+      ],
+      tarjetas: [] },
 
-    { id: "m19", fase: "Zona", zona: "C", fecha: "2026-10-31", hora: "14:00", cancha: "Cancha 3",
-      local: "e9", visitante: "e10", golesLocal: null, golesVisitante: null,
-      veedor: "Juanpy", veedorEq: "e11",
-      goles: [], tarjetas: [] },
+    { id: "m19", fase: "Zona", manual: true, zona: "C", fecha: "2026-10-31", hora: "14:00", cancha: "Cancha 3",
+      local: "e9", visitante: "e10", golesLocal: 3, golesVisitante: 6,
+      veedor: "Juanpy", veedorEq: "e11", mvp: "p49",   // cargado en vivo, verificado con la planilla en papel
+      goles: [
+        { j: "p43", e: "e9" },
+        { j: "p44", e: "e9" },
+        { j: "p130", e: "e9" },
+        { j: "p47", e: "e10" },
+        { j: "p47", e: "e10" },
+        { j: "p49", e: "e10" },
+        { j: "p49", e: "e10" },
+        { j: "p50", e: "e10" },
+        { j: "p102", e: "e10" }
+      ],
+      tarjetas: [{ j: "p44", e: "e9", t: "A" }, { j: "p102", e: "e10", t: "A" }] },
 
-    { id: "m20", fase: "Zona", zona: "A", fecha: "2026-10-31", hora: "15:00", cancha: "Cancha 1",
-      local: "e6", visitante: "e7", golesLocal: null, golesVisitante: null,
-      veedor: "Rolo", veedorEq: "e3",
-      goles: [], tarjetas: [] },
+    { id: "m20", fase: "Zona", manual: true, zona: "A", fecha: "2026-10-31", hora: "15:00", cancha: "Cancha 1",
+      local: "e6", visitante: "e7", golesLocal: 23, golesVisitante: 1,
+      veedor: "Rolo", veedorEq: "e3", mvp: "p112",   // cargado en vivo, verificado con la planilla en papel
+      goles: [
+        { j: "p35", e: "e7" },
+        { j: "p26", e: "e6" },
+        { j: "p27", e: "e6" },
+        { j: "p29", e: "e6" },
+        { j: "p30", e: "e6" },
+        { j: "p110", e: "e6" },
+        { j: "p110", e: "e6" },
+        { j: "p110", e: "e6" },
+        { j: "p111", e: "e6" },
+        { j: "p111", e: "e6" },
+        { j: "p111", e: "e6" },
+        { j: "p112", e: "e6" },
+        { j: "p112", e: "e6" },
+        { j: "p112", e: "e6" },
+        { j: "p112", e: "e6" },
+        { j: "p112", e: "e6" },
+        { j: "p112", e: "e6" },
+        { j: "p114", e: "e6" },
+        { j: "p114", e: "e6" },
+        { j: "p114", e: "e6" },
+        { j: "p114", e: "e6" },
+        { j: "p114", e: "e6" },
+        { j: "p114", e: "e6" },
+        { j: "p114", e: "e6" }
+      ],
+      tarjetas: [] },
 
-    { id: "m21", fase: "Zona", zona: "D", fecha: "2026-10-31", hora: "15:00", cancha: "Cancha 2",
-      local: "e13", visitante: "e4", golesLocal: null, golesVisitante: null,
-      veedor: "Cesar", veedorEq: "e9",
-      goles: [], tarjetas: [] },
+    { id: "m21", fase: "Zona", manual: true, zona: "D", fecha: "2026-10-31", hora: "15:00", cancha: "Cancha 2",
+      local: "e13", visitante: "e4", golesLocal: 8, golesVisitante: 2,
+      veedor: "Cesar", veedorEq: "e9", mvp: "p64",   // cargado en vivo, verificado con la planilla en papel
+      goles: [
+        { j: "p62", e: "e13" },
+        { j: "p62", e: "e13" },
+        { j: "p63", e: "e13" },
+        { j: "p64", e: "e13" },
+        { j: "p64", e: "e13" },
+        { j: "p142", e: "e13" },
+        { j: "p143", e: "e13" },
+        { j: "p145", e: "e13" },
+        { j: "p327", e: "e4" },
+        { j: "p327", e: "e4" }
+      ],
+      tarjetas: [] },
 
-    { id: "m22", fase: "Zona", zona: "D", fecha: "2026-10-31", hora: "15:00", cancha: "Cancha 3",
-      local: "e15", visitante: "e16", golesLocal: null, golesVisitante: null,
-      veedor: "Emma", veedorEq: "e5",
-      goles: [], tarjetas: [] },
+    { id: "m22", fase: "Zona", manual: true, zona: "D", fecha: "2026-10-31", hora: "15:00", cancha: "Cancha 3",
+      local: "e15", visitante: "e16", golesLocal: 5, golesVisitante: 6,
+      veedor: "Emma", veedorEq: "e5", mvp: "p79",   // cargado en vivo, verificado con la planilla en papel
+      goles: [
+        { j: "p81", e: "e15" },
+        { j: "p84", e: "e15" },
+        { j: "p84", e: "e15" },
+        { j: "p90", e: "e15" },
+        { j: "p90", e: "e15" },
+        { j: "p146", e: "e16" },
+        { j: "p146", e: "e16" },
+        { j: "p79", e: "e16" },
+        { j: "p79", e: "e16" },
+        { j: "p79", e: "e16" },
+        { j: "p79", e: "e16" }
+      ],
+      tarjetas: [{ j: "p148", e: "e16", t: "A" }, { j: "p149", e: "e16", t: "R" }, { j: "p149", e: "e16", t: "Z" }] },
 
-    { id: "m23", fase: "Zona", zona: "A", fecha: "2026-10-31", hora: "16:00", cancha: "Cancha 1",
-      local: "e1", visitante: "e2", golesLocal: null, golesVisitante: null,
-      veedor: "Fer Torres", veedorEq: "e7",
-      goles: [], tarjetas: [] },
+    { id: "m23", fase: "Zona", manual: true, zona: "A", fecha: "2026-10-31", hora: "16:00", cancha: "Cancha 1",
+      local: "e1", visitante: "e2", golesLocal: 4, golesVisitante: 3,
+      veedor: "Fer Torres", veedorEq: "e7", mvp: "p117",   // cargado en vivo, verificado con la planilla en papel
+      goles: [
+        { j: "p200", e: "e1" },
+        { j: "p118", e: "e2" },
+        { j: "p2", e: "e1" },
+        { j: "p202", e: "e1" },
+        { j: "p120", e: "e2" },
+        { j: "p203", e: "e1" },
+        { j: "p8", e: "e2" }
+      ],
+      tarjetas: [] },
 
-    { id: "m24", fase: "Zona", zona: "C", fecha: "2026-10-31", hora: "16:00", cancha: "Cancha 3",
-      local: "e11", visitante: "e8", golesLocal: null, golesVisitante: null,
-      veedor: "Alex", veedorEq: "e13",
-      goles: [], tarjetas: [] },
+    { id: "m24", fase: "Zona", manual: true, zona: "C", fecha: "2026-10-31", hora: "16:00", cancha: "Cancha 3",
+      local: "e11", visitante: "e8", golesLocal: 0, golesVisitante: 2,
+      veedor: "Alex", veedorEq: "e13", mvp: "p124",   // cargado en vivo, verificado con la planilla en papel
+      goles: [
+        { j: "p124", e: "e8" },
+        { j: "p126", e: "e8" }
+      ],
+      tarjetas: [{ j: "p53", e: "e11", t: "A" }, { j: "p55", e: "e11", t: "A" }] },
 
     // ----- Playoffs (equipos por definir) -----
     // Cuadro de arriba hacia abajo: Cuartos 1 y 2 van a la Semi 1; Cuartos 3 y 4 a la Semi 2.

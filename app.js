@@ -29,7 +29,8 @@
   const cmpFP = (a, b) => a.ro - b.ro || a.am - b.am || a.az - b.az;
   const contarTarj = (ts) => { const c = { ro: 0, am: 0, az: 0 }; (ts || []).forEach((t) => { if (esRoja(t)) c.ro++; else if (esAzul(t)) c.az++; else c.am++; }); return c; };
   const iconoTarj = (t) => (esRoja(t) ? "🟥" : esAzul(t) ? "🟦" : "🟨");
-  const faseLabel = (p) => (p.fase === "Zona" ? "Zona " + p.zona : p.fase);
+  const cruceDePartido = (p) => { for (const c of llaves()) for (const r of c.rondas) for (const x of r.cruces) if (x.partidoId === p.id) return x; return null; };
+  const faseLabel = (p) => { if (p.fase === "Zona") return "Zona " + p.zona; const c = cruceDePartido(p); return (c && c.nombre) || p.fase; };
   const porFecha = (a, b) => (a.fecha + a.hora).localeCompare(b.fecha + b.hora);
   const natural = (a, b) => String(a).localeCompare(String(b), "es", { numeric: true });
   const signo = (n) => (n > 0 ? "+" + n : String(n));
@@ -39,7 +40,7 @@
 
   function badge(e, clase) {
     const c = "badge" + (clase ? " " + clase : "");
-    if (e && e.escudo) return `<img class="${c}" src="${esc(e.escudo)}" alt="">`;
+    if (e && e.escudo) return `<img class="${c}" src="${esc(e.escudo)}" alt="" decoding="async">`;
     return `<span class="${c}">${esc(iniciales(e ? e.nombre : "?"))}</span>`;
   }
   const cabezaTag = (e) => (e && e.cabeza ? `<span class="cabeza" title="Cabeza de serie ${esc(e.cabeza)}">★ ${esc(e.cabeza)}</span>` : "");
@@ -414,10 +415,11 @@
       return `<a class="mt-eq ${k} ${clsDe(id)}"${href}>${badge(e, "chico")}<span class="n${e ? "" : " tbd"}">${nom}</span>${paisTag(e)}<b class="gl${muestra ? "" : " vacio"}">${gl}</b></a>`;
     };
     const meta = [];
-    if (o.sin !== "hora") meta.push(`<b>${esc(p.hora)}</b>`);
-    if (o.sin !== "cancha") meta.push(`<span>${esc(p.cancha)}</span>`);
+    if (o.sin !== "hora") meta.push(`<b>${p.hora ? esc(p.hora) : "Horario a definir"}</b>`);
+    if (o.sin !== "cancha") meta.push(`<span>${p.cancha ? esc(p.cancha) : "Cancha a definir"}</span>`);
     const tag = ok ? `<span class="tag">${p.wo ? "W.O." : "FINAL"}</span>` : live ? '<span class="tag vivo"><i></i>EN VIVO</span>' : '<span class="tag pend">PRÓXIMO</span>';
     let pie = "";
+    if (!ok && !live) { const sp = suspendidosEn(p); if (sp.length) pie += `<p class="susp"><b>🟥 Suspendido${sp.length > 1 ? "s" : ""}:</b> ${sp.map((j) => `<a href="#/jugador/${esc(j.id)}">${esc(j.nombre)}</a> <small>${esc((equipo(j.equipo) || {}).nombre || "")}</small>`).join(" · ")}</p>`; }
     if (o.veedor && (p.veedor || p.veedorEq)) pie += `<p class="veedor">Veedor: ${veedorTxt(p.veedor, p.veedorEq)}</p>`;
     if (o.detalle && (ok || live)) {
       const res = (id, gol) => {
@@ -436,6 +438,14 @@
   const celdaPartido = (p) => marcador(p, { sin: "hora" });
 
   const vacio = (t) => `<div class="vacio">${esc(t)}</div>`;
+  // Suspendidos que se pierden ESTE partido: los de la lista (data.js) cuyo equipo juega acá su próximo partido pendiente.
+  function suspendidosEn(p) {
+    return (D.suspendidos || []).map((s) => jugador(s.j)).filter((j) => {
+      if (!j || (j.equipo !== p.local && j.equipo !== p.visitante)) return false;
+      const prox = partidos().filter((x) => (x.local === j.equipo || x.visitante === j.equipo) && !jugado(x) && !enVivo(x)).sort(porFecha)[0];
+      return prox && prox.id === p.id;
+    });
+  }
 
 
   /* ---- portada: próxima fecha ---- */
@@ -573,6 +583,12 @@
     const nFecha = diasZona.indexOf(diaUlt);
     const etqUlt = diaUlt ? `${nFecha >= 0 ? "Fecha " + (nFecha + 1) + " · " : ""}${fechaCorta(diaUlt)}` : "";
     const vivos = ps.filter(enVivo).sort(porFecha);
+    // Próximos partidos: los que faltan jugar de la próxima fecha (con los cruces ya armados).
+    const diaProx = [...new Set(fechas)].find((f) => f >= hoyBA() && ps.some((p) => p.fecha === f && !jugado(p) && !enVivo(p))) || "";
+    const proximos = ps.filter((p) => p.fecha === diaProx && !jugado(p) && !enVivo(p)).sort((a, b) => porFecha(a, b) || natural(faseLabel(a), faseLabel(b)));
+    const horasProx = [...new Set(proximos.map((p) => p.hora || ""))];
+    const proxHtml = proximos.length ? `<h2 class="titulo-sec">Próximos partidos <span class="tit-fecha">${esc(etiquetaFecha(diaProx))} · ${esc(fechaCorta(diaProx))}</span></h2>
+      ${horasProx.map((h) => `<section class="hora-blq"><div class="hora-n"><b>${h ? esc(h) : "Horario a definir"}</b></div><div class="res-grid">${proximos.filter((p) => (p.hora || "") === h).map((p) => marcador(p, { sin: "hora", veedor: true })).join("")}</div></section>`).join("")}` : "";
 
     const hero = heroInicio(fechas, rango, canchas.length, sede);
     const sedeHtml = `<a class="sede2" href="${esc(mapsLink())}" target="_blank" rel="noopener">
@@ -584,6 +600,7 @@
     return `${hero}
       ${miEquipoHtml()}
       ${vivos.length ? `<h2 class="titulo-sec">En vivo ahora</h2><div class="res-grid">${vivos.map(tarjetaLista).join("")}</div>` : ""}
+      ${proxHtml}
       <h2 class="titulo-sec">Últimos resultados${etqUlt ? ` <span class="tit-fecha">${esc(etqUlt)}</span>` : ""}</h2>
       ${ult.length ? `<div class="res-grid">${ult.map(tarjetaResultado).join("")}</div>` : vacio("Todavía no hay resultados cargados.")}
       ${llaves().some((c) => campeonDe(c)) ? `<h2 class="titulo-sec">Campeones</h2><div class="camp-grid">${camps}</div>` : ""}
@@ -605,7 +622,7 @@
   function vistaFixture() {
     const dias = [...new Set(partidos().map((p) => p.fecha).filter(Boolean))].sort();
     if (!dias.length) return vacio("Todavía no hay partidos cargados.");
-    if (!dias.includes(estadoFx.dia)) estadoFx.dia = dias[0];
+    if (!dias.includes(estadoFx.dia)) estadoFx.dia = dias.find((d) => d >= hoyBA()) || dias[dias.length - 1];
 
     const tabs = dias.map((d) => `<button class="chip ${d === estadoFx.dia ? "on" : ""}" data-dia="${esc(d)}">${esc(fechaCorta(d))}</button>`).join("");
     if (!["hora", "cancha"].includes(estadoFx.vista)) estadoFx.vista = "hora";
@@ -628,7 +645,7 @@
     }
 
     const jugDia = delDia.filter(jugado);
-    const res = resumen([[delDia.length, "partidos del día"], [jugDia.length, "jugados"], [jugDia.reduce((s, p) => s + (p.golesLocal || 0) + (p.golesVisitante || 0), 0), "goles"], [[...new Set(delDia.map((p) => p.cancha))].length, "canchas"]]);
+    const res = resumen([[delDia.length, "partidos del día"], [jugDia.length, "jugados"], [jugDia.reduce((s, p) => s + (p.golesLocal || 0) + (p.golesVisitante || 0), 0), "goles"], (() => { const n = [...new Set(delDia.map((p) => p.cancha).filter(Boolean))].length; return n ? [n, "canchas"] : null; })()]);
     return `<p class="kicker">${esc(D.horario || "")}</p><h2 class="titulo-pag">Fixture</h2>${res}
       <div class="ctrl"><div class="filtros">${tabs}</div><div class="seg">${seg}</div><select class="sel" data-eq="1">${opts}</select></div>${cuerpo}`;
   }
@@ -656,7 +673,27 @@
       ${(() => { const j = partidos().filter((p) => p.fase === "Zona" && jugado(p)), t = partidos().filter((p) => p.fase === "Zona").length;
         return resumen([[equipos().length, "equipos"], [`${j.length}<small>/${t}</small>`, "partidos jugados"], [j.reduce((s, p) => s + (p.golesLocal || 0) + (p.golesVisitante || 0), 0), "goles"]]); })()}
       <div class="zonas-grid">${bloques}</div>
+      ${rankingHtml()}
       <p class="leyenda">Desempate: puntos · diferencia de gol · fair play (menos rojas, después amarillas, después azules) · goles a favor · orden alfabético. La columna FP muestra rojas-amarillas-azules.</p>`;
+  }
+
+  // Ranking general 1-16: de dónde sale cada cruce. Aparece cuando terminaron las zonas.
+  function rankingHtml() {
+    const rk = rankingGeneral();
+    if (!rk) return "";
+    const clas = D.clasificacion || [];
+    const rival = (n) => { const base = n <= 8 ? 0 : 8, k = n - base; return base + 9 - k; };
+    const filas = rk.map((f, i) => {
+      const e = equipo(f.id), n = i + 1, c = clas.find((x) => f.pos >= x.desde && f.pos <= x.hasta), rv = rk[rival(n) - 1];
+      return `<tr class="${n === 9 ? "rk-corte" : ""}"><td class="pos q-${c ? esc(c.tono || "oro") : ""}">${n}</td>
+        <td class="izq"><a class="celda-eq" href="#/equipo/${esc(f.id)}">${badge(e, "chico")}<span class="rk-eq"><b>${esc(e.nombre)}</b>${rv ? `<small><i class="rk-vs">vs</i> ${esc(equipo(rv.id).nombre)} (${rival(n)}°)</small>` : ""}</span></a></td>
+        <td>${f.pos}° ${esc(e.zona || "")}</td><td class="pts">${f.pts}</td><td>${signo(f.dg)}</td><td>${f.gf}</td></tr>`;
+    }).join("");
+    return `<section class="zona-b rk" id="ranking"><h3 class="ag-z">Ranking general · así se arman los cruces</h3>
+      <div class="zona"><div class="tabla-wrap"><table class="rk-t">
+        <thead><tr><th>#</th><th class="izq">Equipo</th><th>Zona</th><th>Pts</th><th>DG</th><th>GF</th></tr></thead>
+        <tbody>${filas}</tbody></table></div></div>
+      <p class="leyenda">Primero van los cuatro 1° de zona, después los 2°, los 3° y los 4°. Dentro de cada grupo se ordenan por puntos, diferencia de gol, fair play y goles a favor. Del 1 al 8 juegan la Copa Oro y del 9 al 16 la Copa Plata: el mejor contra el último de su copa (1 vs 8, 2 vs 7, 3 vs 6, 4 vs 5).</p></section>`;
   }
 
   const estadoCopa = { i: 0 };
@@ -792,10 +829,28 @@
     };
     return `<p class="kicker">Copa ${esc(D.edicion || "")}</p><h2 class="titulo-pag">Equipos participantes</h2>
       ${resumen([[equipos().length, "equipos"], [zonas().length, "zonas"], [nj, "jugadores"]])}
+      <label class="buscar"><span class="sr">Buscar jugador o equipo</span><input type="search" data-buscar="1" placeholder="Buscar jugador o equipo…" autocomplete="off" enterkeyhint="search"></label>
+      <div id="busq" class="busq" hidden></div>
       <div class="ag-zonas">${zonas().map((z) => `<section><h3 class="ag-z">Zona ${esc(z)}</h3><ul>${equipos().filter((e) => e.zona === z).map(fila).join("")}</ul></section>`).join("")}</div>
       <p class="ag-nota">★ cabeza de serie</p>`;
   }
 
+
+  // Buscador de Equipos: filtra sin redibujar la página (para no perder el foco del teclado).
+  const sinTildes = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  function buscar(q) {
+    const caja = document.getElementById("busq");
+    if (!caja) return;
+    const t = sinTildes(q).trim();
+    if (t.length < 2) { caja.hidden = true; caja.innerHTML = ""; return; }
+    const pal = t.split(/\s+/), ok = (n) => { const x = sinTildes(n); return pal.every((w) => x.includes(w)); };
+    const eqs = equipos().filter((e) => ok(e.nombre));
+    const js = jugadores().filter((j) => ok(j.nombre)).slice(0, 30);
+    const h = eqs.map((e) => `<a class="bq" href="#/equipo/${esc(e.id)}">${badge(e, "chico")}<b>${esc(e.nombre)}</b><small>Equipo · Zona ${esc(e.zona || "")}</small></a>`).join("") +
+      js.map((j) => { const e = equipo(j.equipo); return `<a class="bq" href="#/jugador/${esc(j.id)}">${badge(e, "chico")}<b>${esc(j.nombre)}</b><small>${esc(e ? e.nombre : "")}</small></a>`; }).join("");
+    caja.hidden = false;
+    caja.innerHTML = h || `<p class="bq-nada">No encontré nada con “${esc(q.trim())}”.</p>`;
+  }
 
   /* ---------------- agregados (cupos de jugadores sumados con la Copa empezada) ---------------- */
   const resumen = (items) => `<div class="ag-res">${items.filter(Boolean).map(([n, t]) => `<div><strong>${n}</strong><span>${esc(t)}</span></div>`).join("")}</div>`;
@@ -835,13 +890,14 @@
     if (!e) return vacio("No encontré ese equipo.");
     const plantel = jugadores().filter((j) => j.equipo === id);
     const f = e.zona ? tablaZona(e.zona).find((x) => x.id === id) : null;
-    const jug = plantel.map((j) => `<a class="tarjeta" href="#/jugador/${esc(j.id)}">${fotoGrande(j)}<h3>${esc(j.nombre)}</h3>
-      <p>${j.numero != null ? `<span class="dorsal">#${esc(j.numero)}</span> · ` : ""}${golesTotal(j.id)} goles</p></a>`).join("");
+    const susp = new Set((D.suspendidos || []).map((x) => x.j));
+    const jug = plantel.map((j) => { const g = golesTotal(j.id); return `<a class="tarjeta" href="#/jugador/${esc(j.id)}">${fotoGrande(j)}<div class="tj-txt"><h3>${esc(j.nombre)}</h3>
+      <p>${j.numero != null ? `<span class="dorsal">#${esc(j.numero)}</span> · ` : ""}${g} ${g === 1 ? "gol" : "goles"}${j.arquero ? ' · <span class="tj-tag">🧤 Arquero</span>' : ""}${j.agregado ? ' · <span class="tj-tag">Agregado</span>' : ""}${susp.has(j.id) ? ' · <span class="tj-tag rojo">Suspendido</span>' : ""}</p></div></a>`; }).join("");
     const part = partidos().filter((p) => p.local === id || p.visitante === id).sort(porFecha).map(tarjetaLista).join("");
     return `<a class="volver" href="#/equipos">← Equipos</a>
       <div class="ficha">${badge(e, "grande")}<div><h2>${esc(e.nombre)}</h2>
       <p>${e.zona ? "Zona " + esc(e.zona) : ""}${e.pais ? " · " + esc(e.pais) : ""}${f ? ` · ${f.pts} pts · ${f.pj} PJ · DG ${signo(f.dg)}` : ""} · <a href="#/agregados">Agregados ${agregadosDe(id).length}/${cupoAgregados()}</a></p></div></div>
-      <h2 class="titulo-sec">Plantel</h2>${plantel.length ? `<div class="grid">${jug}</div>` : vacio("Sin jugadores cargados.")}
+      <h2 class="titulo-sec">Plantel <span class="tit-fecha">${plantel.length} jugadores</span></h2>${plantel.length ? `<div class="grid plantel">${jug}</div>` : vacio("Sin jugadores cargados.")}
       <h2 class="titulo-sec">Partidos</h2>${part ? `<div class="res-grid">${part}</div>` : vacio("Sin partidos.")}`;
   }
 
@@ -929,6 +985,7 @@
     const tj = partidos().reduce((s, p) => s + ((p.tarjetas || []).length), 0);
     return `<p class="kicker">Los números de la Copa</p><h2 class="titulo-pag">Estadísticas</h2>
       ${resumen([[gl, "goles"], [jug.length, "partidos jugados"], [jug.length ? (gl / jug.length).toFixed(1).replace(".", ",") : "0", "goles por partido"], [tj, "tarjetas"]])}
+      <div class="filtros est-ir">${ir}</div>
       ${sec.goleadores}
       <div class="est-duo">${sec.valla}${sec.fairplay}</div>
       <div class="est-duo">${sec.mvp}${sec.veedores}</div>
@@ -1268,6 +1325,7 @@
       if (t.dataset.copa != null && t.dataset.copa !== "") estadoCopa.i = Number(t.dataset.copa);
       render(true);
     });
+    app.addEventListener("input", (ev) => { if (ev.target.matches("[data-buscar]")) buscar(ev.target.value); });
     app.addEventListener("change", (ev) => {
       if (ev.target.matches("[data-eq]")) { estadoFx.eq = ev.target.value; render(true); }
       if (ev.target.matches("[data-mi]")) { try { localStorage.setItem("copaMiEq", ev.target.value); } catch (e) { /* sin storage */ } render(true); }
