@@ -215,8 +215,7 @@ def dorso_penales(c, p):
               "• Si siguen empatados: de a un penal por equipo,",
               "  hasta que uno convierta y el otro no.",
               "• Patean solo los que estaban en cancha al",
-              "  terminar el partido, en el orden de esta lista",
-              "  (se entrega al árbitro antes de empezar).",
+              "  terminar el partido, en el orden de esta lista.",
               "• Nadie repite hasta que pateen todos sus",
               "  compañeros. Si se acaba la lista, se vuelve al 1.",
               "• Ley de equiparidad: si un equipo tiene menos",
@@ -277,10 +276,9 @@ def dorso_penales(c, p):
     c.drawString(gx, gy - 1 * mm, "SI SIGUEN EMPATADOS: DE A UNO, HASTA QUE UNO CONVIERTA Y EL OTRO NO")
     gy -= 3.5 * mm
     y0 = gy
-    for r in range(4, 12): gy = fila(str(r), gy)
+    for r in range(4, 14): gy = fila(str(r), gy)
     marco(y0, gy)
-    c.setFont("Helvetica", 7.2); c.setFillColor(black)
-    c.drawString(gx, gy - 4 * mm, "Si se llenan las filas, seguir en el renglón de Incidencias del frente.")
+    c.setFillColor(black)
     # resultado de la serie y firmas (abajo)
     yb = 30 * mm
     c.setFillColor(GRISCLARO); c.setStrokeColor(black); c.setLineWidth(1.2); c.rect(gx, yb - 2 * mm, gw, 14 * mm, fill=1, stroke=1)
