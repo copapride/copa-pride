@@ -238,8 +238,15 @@ def dorso_penales(c, p):
     c.rect(gx, gy - 8 * mm, gw, 8 * mm, fill=1, stroke=1)
     c.setFillColor(black); c.setFont("Helvetica-Bold", 7.5); c.drawCentredString((xs[0] + xs[1]) / 2, gy - 5.2 * mm, "RONDA")
     c.setFont("Helvetica-Bold", 10.5)
-    c.drawCentredString((xs[1] + xs[3]) / 2, gy - 5.3 * mm, nl.upper()[:28])
-    c.drawCentredString((xs[3] + xs[5]) / 2, gy - 5.3 * mm, nv.upper()[:28])
+    for eid, nom, a0, a1 in ((p["local"], nl, xs[1], xs[3]), (p["visitante"], nv, xs[3], xs[5])):
+        t = nom.upper()[:28]; tw = c.stringWidth(t, "Helvetica-Bold", 10.5)
+        esc = os.path.join(RAIZ, EQ[eid]["escudo"]) if eid in EQ and EQ[eid].get("escudo") else ""
+        ew = 7 * mm if esc and os.path.exists(esc) else 0
+        x1 = (a0 + a1) / 2 - (tw + ew + (1.5 * mm if ew else 0)) / 2
+        if ew:
+            try: c.drawImage(esc, x1, gy - 7.5 * mm, ew, ew, preserveAspectRatio=True, mask="auto")
+            except Exception: ew = 0
+        c.drawString(x1 + (ew + 1.5 * mm if ew else 0), gy - 5.3 * mm, t)
     gy -= 8 * mm
     c.setFillColor(GRISCLARO); c.rect(gx, gy - 5.5 * mm, gw, 5.5 * mm, fill=1, stroke=1)
     c.setFillColor(black); c.setFont("Helvetica-Bold", 6.8)

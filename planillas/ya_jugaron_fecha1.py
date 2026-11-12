@@ -60,3 +60,8 @@ FECHA3 = {
 for _e, _l in FECHA3.items():
     A_MANO.setdefault(_e, [])
     A_MANO[_e] += [x for x in _l if x not in A_MANO[_e]]
+
+# Confirmado por Fer (12/11, mirando los videos): jugaron aunque no figuran marcados.
+for _e, _l in {"e3": ["p305"], "e4": ["p320"], "e15": ["p87"]}.items():   # Francisco Hereñu, Moisés Sanabria Estigarribia, Henrry Cuellar Cariño
+    A_MANO.setdefault(_e, [])
+    A_MANO[_e] += [x for x in _l if x not in A_MANO[_e]]
