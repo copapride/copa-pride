@@ -181,12 +181,136 @@ def hoja(c, p):
     c.setFillColor(black); c.setFont("Helvetica-Bold", 8)
     c.drawCentredString(W / 2, 3.8 * mm, ("Si termina empatado se define por penales: anotá el resultado de la serie en Incidencias. " if PLAYOFF else "JUGÓ en negro = ya jugó antes. ") + "GOLES: palitos (la banda cierra el 5). TARJETAS: tildá el casillero.")
 
+def dorso_penales(c, p):
+    """Dorso de la planilla de playoffs: definición por penales (art. 5.21)."""
+    nl, nv = nombre_equipo(p["local"]), nombre_equipo(p["visitante"])
+    # cabecera
+    c.setFillColor(black); c.setFont("Helvetica-Bold", 20); c.drawString(M, H - 13 * mm, "DEFINICIÓN POR PENALES")
+    c.setFont("Helvetica-Bold", 11)
+    c.drawRightString(W - M, H - 12 * mm, f"{p.get('cruce') or p['fase']} · {DIAS.get(p['fecha'], p['fecha'])} · {nl} vs {nv}")
+    c.setFont("Helvetica", 9)
+    c.drawString(M, H - 19.5 * mm, "Se usa solo si el partido terminó empatado. Completar en el orden en que patean.")
+    c.setLineWidth(1.6); c.setStrokeColor(black); c.line(M, H - 23 * mm, W - M, H - 23 * mm)
+
+    # ---- columna izquierda: lista previa de pateadores + reglas ----
+    lw = 78 * mm; x = M; y = H - 28 * mm
+    for nom in (nl, nv):
+        c.setFillColor(GRISCLARO); c.setStrokeColor(black); c.setLineWidth(0.9)
+        c.rect(x, y - 7 * mm, lw, 7 * mm, fill=1, stroke=1)
+        c.setFillColor(black); c.setFont("Helvetica-Bold", 9.5)
+        c.drawString(x + 2 * mm, y - 4.8 * mm, ("ORDEN DE PATEADORES · " + nom.upper())[:44])
+        y -= 7 * mm
+        for k in range(5):
+            c.setStrokeColor(GRIS); c.setLineWidth(0.5); c.line(x, y - 7 * mm, x + lw, y - 7 * mm)
+            c.setFillColor(black); c.setFont("Helvetica-Bold", 9); c.drawCentredString(x + 4 * mm, y - 4.8 * mm, str(k + 1))
+            c.setFont("Helvetica", 7); c.setFillColor(GRIS); c.drawString(x + 10 * mm, y - 4.8 * mm, "Nº ____   Nombre")
+            c.setFillColor(black)
+            y -= 7 * mm
+        c.setStrokeColor(black); c.setLineWidth(0.9); c.rect(x, y, lw, 35 * mm, fill=0)
+        c.line(x + 8 * mm, y, x + 8 * mm, y + 35 * mm)
+        y -= 5 * mm
+    # reglas
+    reglas = ["CÓMO SE PATEA (reglamento 5.21)",
+              "• Primero 3 penales por equipo, alternados.",
+              "• Si siguen empatados: de a un penal por equipo,",
+              "  hasta que uno convierta y el otro no.",
+              "• Patean solo los que estaban en cancha al",
+              "  terminar el partido, en el orden de esta lista",
+              "  (se entrega al árbitro antes de empezar).",
+              "• Nadie repite hasta que pateen todos sus",
+              "  compañeros. Si se acaba la lista, se vuelve al 1.",
+              "• Ley de equiparidad: si un equipo tiene menos",
+              "  jugadores, el otro reduce su lista hasta igualar.",
+              "• Penal sin carrera. Si el arquero se adelanta,",
+              "  se patea de nuevo (5.14)."]
+    yr = y - 1 * mm; hr = 4.3 * mm * len(reglas) + 3 * mm
+    c.setStrokeColor(black); c.setLineWidth(0.9); c.rect(x, yr - hr, lw, hr, fill=0)
+    for i, t in enumerate(reglas):
+        c.setFont("Helvetica-Bold" if i == 0 else "Helvetica", 8.3 if i == 0 else 7.8)
+        c.drawString(x + 2 * mm, yr - 4.5 * mm - i * 4.3 * mm, t)
+
+    # ---- grilla de penales ----
+    gx = M + lw + 6 * mm; gw = W - M - gx; gy = H - 28 * mm
+    ronda_w, mark_w = 13 * mm, 22 * mm
+    nom_w = (gw - ronda_w - 2 * mark_w) / 2
+    xs = [gx, gx + ronda_w, gx + ronda_w + nom_w, gx + ronda_w + nom_w + mark_w, gx + ronda_w + 2 * nom_w + mark_w, gx + gw]
+    # encabezado con nombres de equipos
+    c.setFillColor(GRISCLARO); c.setStrokeColor(black); c.setLineWidth(0.9)
+    c.rect(gx, gy - 8 * mm, gw, 8 * mm, fill=1, stroke=1)
+    c.setFillColor(black); c.setFont("Helvetica-Bold", 7.5); c.drawCentredString((xs[0] + xs[1]) / 2, gy - 5.2 * mm, "RONDA")
+    c.setFont("Helvetica-Bold", 10.5)
+    c.drawCentredString((xs[1] + xs[3]) / 2, gy - 5.3 * mm, nl.upper()[:28])
+    c.drawCentredString((xs[3] + xs[5]) / 2, gy - 5.3 * mm, nv.upper()[:28])
+    gy -= 8 * mm
+    c.setFillColor(GRISCLARO); c.rect(gx, gy - 5.5 * mm, gw, 5.5 * mm, fill=1, stroke=1)
+    c.setFillColor(black); c.setFont("Helvetica-Bold", 6.8)
+    for a, b in ((1, 2), (3, 4)): c.drawString(xs[a] + 1.5 * mm, gy - 3.8 * mm, "Pateador (Nº y nombre)")
+    for a in (2, 4):
+        c.drawCentredString(xs[a] + mark_w * 0.28, gy - 3.8 * mm, "GOL"); c.drawCentredString(xs[a] + mark_w * 0.72, gy - 3.8 * mm, "ERRÓ")
+    gy -= 5.5 * mm
+    alto = 7.6 * mm; s = 4.6 * mm
+    def fila(etq, y):
+        c.setStrokeColor(GRIS); c.setLineWidth(0.5); c.line(gx, y - alto, gx + gw, y - alto)
+        c.setFillColor(black); c.setFont("Helvetica-Bold", 10); c.drawCentredString((xs[0] + xs[1]) / 2, y - alto / 2 - 1.3 * mm, etq)
+        for a in (2, 4):
+            for f in (0.28, 0.72): box(c, xs[a] + mark_w * f - s / 2, y - alto / 2 - s / 2, s)
+        return y - alto
+    def marco(ytop, ybot):
+        c.setStrokeColor(GRIS); c.setLineWidth(0.5)
+        for xv in xs[1:-1]: c.line(xv, ytop, xv, ybot)
+        c.setStrokeColor(black); c.setLineWidth(1.1); c.line(xs[3], ytop, xs[3], ybot); c.rect(gx, ybot, gw, ytop - ybot, fill=0)
+    # serie de 3
+    y0 = gy
+    for r in range(3): gy = fila(str(r + 1), gy)
+    marco(y0, gy)
+    # subtotal serie de 3
+    c.setFillColor(GRISCLARO); c.setStrokeColor(black); c.setLineWidth(0.9); c.rect(gx, gy - 8 * mm, gw, 8 * mm, fill=1, stroke=1)
+    c.setFillColor(black); c.setFont("Helvetica-Bold", 8.5)
+    c.drawString(gx + 2 * mm, gy - 5.2 * mm, "GOLES EN LA SERIE DE 3")
+    for a in (2, 4):
+        c.setFillColor(white); c.rect(xs[a] + 3 * mm, gy - 7 * mm, mark_w - 6 * mm, 6 * mm, fill=1, stroke=1)
+    c.setFillColor(black); c.setFont("Helvetica", 7.5)
+    c.drawRightString(xs[2] - 2 * mm, gy - 5.2 * mm, nl[:22]); c.drawRightString(xs[4] - 2 * mm, gy - 5.2 * mm, nv[:22])
+    gy -= 8 * mm + 3.5 * mm
+    # muerte súbita
+    c.setFont("Helvetica-Bold", 8.5)
+    c.drawString(gx, gy - 1 * mm, "SI SIGUEN EMPATADOS: DE A UNO, HASTA QUE UNO CONVIERTA Y EL OTRO NO")
+    gy -= 3.5 * mm
+    y0 = gy
+    for r in range(4, 12): gy = fila(str(r), gy)
+    marco(y0, gy)
+    c.setFont("Helvetica", 7.2); c.setFillColor(black)
+    c.drawString(gx, gy - 4 * mm, "Si se llenan las filas, seguir en el renglón de Incidencias del frente.")
+    # resultado de la serie y firmas (abajo)
+    yb = 30 * mm
+    c.setFillColor(GRISCLARO); c.setStrokeColor(black); c.setLineWidth(1.2); c.rect(gx, yb - 2 * mm, gw, 14 * mm, fill=1, stroke=1)
+    c.setFillColor(black); c.setFont("Helvetica-Bold", 8.5); c.drawString(gx + 2.5 * mm, yb + 3.8 * mm, "RESULTADO DE LOS PENALES")
+    cx = gx + gw / 2 + 10 * mm
+    c.setFont("Helvetica-Bold", 11.5)
+    c.drawRightString(cx - 22 * mm, yb + 3.4 * mm, nl.upper()[:20]); c.drawString(cx + 22 * mm, yb + 3.4 * mm, nv.upper()[:20])
+    c.setFillColor(white); c.setLineWidth(1.4)
+    c.rect(cx - 19 * mm, yb - 0.5 * mm, 15 * mm, 10 * mm, fill=1, stroke=1); c.rect(cx + 4 * mm, yb - 0.5 * mm, 15 * mm, 10 * mm, fill=1, stroke=1)
+    c.setFillColor(black); c.setFont("Helvetica-Bold", 18); c.drawCentredString(cx, yb + 2.6 * mm, "–")
+    # firmas
+    yf = 20 * mm
+    campos = ["Pasa a la siguiente ronda", "Firma árbitro", "Firma veedor/a"]
+    cw = gw / 3
+    for i, t in enumerate(campos):
+        xx = gx + i * cw
+        c.setFont("Helvetica-Bold", 7.5); c.drawString(xx + 1 * mm, yf - 1 * mm, t)
+        c.setStrokeColor(GRIS); c.setLineWidth(0.6); c.line(xx + 1 * mm, yf - 9 * mm, xx + cw - 3 * mm, yf - 9 * mm)
+    # pie
+    c.setStrokeColor(black); c.setLineWidth(1.2); c.line(M, 8 * mm, W - M, 8 * mm)
+    c.setFont("Helvetica-Bold", 8)
+    c.drawCentredString(W / 2, 3.8 * mm, "Marcá con una cruz GOL o ERRÓ en cada penal. Los penales de la definición no se suman al resultado del partido.")
+
 def pdf(nombre, partidos):
     c = canvas.Canvas(os.path.join(AQUI, nombre), pagesize=landscape(A4))
     c.setTitle(nombre.replace(".pdf", "")); c.setAuthor("Liga Pride")
     for p in partidos:
         hoja(c, p); c.showPage()
-    c.save(); print(nombre, len(partidos), "hojas")
+        if PLAYOFF: dorso_penales(c, p); c.showPage()   # doble faz: el dorso de cada planilla
+    c.save(); print(nombre, len(partidos), "partidos", c.getPageNumber() - 1, "páginas")
 
 if __name__ == "__main__":
     # Cuartos 14/11: equipos resueltos (ranking final de zonas, criterio Winner).
