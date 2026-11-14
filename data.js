@@ -677,8 +677,8 @@ window.LIGA_DATA = {
       local: "#3", visitante: "#6", golesLocal: null, golesVisitante: null,
       goles: [], tarjetas: [] },
     { id: "m29", fase: "Cuartos Plata", fecha: "2026-11-14", hora: "15:00", cancha: "",
-      local: "#9", visitante: "#16", golesLocal: null, golesVisitante: null,
-      goles: [], tarjetas: [] },
+      local: "#9", visitante: "#16", manual: true, wo: true, golesLocal: 3, golesVisitante: 0,   // W.O.: Escorpiones no se presentó
+      goles: [{ j: "p70", e: "e14" }, { j: "p70", e: "e14" }, { j: "p70", e: "e14" }], tarjetas: [] },
     { id: "m30", fase: "Cuartos Plata", fecha: "2026-11-14", hora: "14:00", cancha: "",
       local: "#12", visitante: "#13", golesLocal: null, golesVisitante: null,
       goles: [], tarjetas: [] },
