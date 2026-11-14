@@ -741,9 +741,7 @@ window.LIGA_DATA = {
   // ---------------------------------------------------------------
   veedores: [],
 
-  suspendidos: [
-    { j: "p149", motivo: "Roja vs Tigres (Fecha 3) · pierde al menos el próximo partido" }
-  ],
+  suspendidos: [],   // Acevedo (Apex) cumplió su fecha en cuartos 14/11
 
   // ---------------------------------------------------------------
   // LLAVES de las dos copas. Cada cruce apunta a un partido de la lista
