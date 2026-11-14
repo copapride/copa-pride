@@ -665,16 +665,20 @@ window.LIGA_DATA = {
     // Fechas: cuartos sáb 14/11, semis sáb 28/11, final y 3er puesto sáb 12/12 (7/11 Marcha del Orgullo; 21/11 y 5/12 fines de semana largos, sin fecha).
     // Horario y cancha: "" = "a definir" (se cargan semana a semana; los mejores clasificados, en los horarios más tarde: 1v8 y 2v7 de Oro a las 16).,
     { id: "m25", fase: "Cuartos Oro", fecha: "2026-11-14", hora: "16:00", cancha: "",
-      local: "#1", visitante: "#8", golesLocal: null, golesVisitante: null,
-      goles: [], tarjetas: [] },
+      local: "#1", visitante: "#8", manual: true, golesLocal: 11, golesVisitante: 4,   // planilla en papel (14/11)
+      veedor: "Juanpy Artin", veedorEq: "e11", mvp: "p202",
+      goles: [{ j: "p4", e: "e1" }, { j: "p5", e: "e1" }, { j: "p5", e: "e1" }, { j: "p5", e: "e1" }, { j: "p201", e: "e1" }, { j: "p202", e: "e1" }, { j: "p202", e: "e1" }, { j: "p202", e: "e1" }, { j: "p202", e: "e1" }, { j: "p202", e: "e1" }, { j: "p202", e: "e1" }, { j: "p150", e: "e16" }, { j: "p79", e: "e16" }, { j: "p79", e: "e16" }, { j: "p79", e: "e16" }],
+      tarjetas: [{ j: "p146", e: "e16", t: "A" }, { j: "p148", e: "e16", t: "A" }] },
     { id: "m26", fase: "Cuartos Oro", fecha: "2026-11-14", hora: "15:00", cancha: "",
       local: "#4", visitante: "#5", manual: true, golesLocal: 2, golesVisitante: 4,   // planilla en papel (14/11)
       veedor: "Pollo", veedorEq: "e2", mvp: "p132",
       goles: [{ j: "p132", e: "e9" }, { j: "p134", e: "e9" }, { j: "p29", e: "e6" }, { j: "p111", e: "e6" }, { j: "p112", e: "e6" }, { j: "p114", e: "e6" }],
       tarjetas: [{ j: "p111", e: "e6", t: "A" }] },
     { id: "m27", fase: "Cuartos Oro", fecha: "2026-11-14", hora: "16:00", cancha: "",
-      local: "#2", visitante: "#7", golesLocal: null, golesVisitante: null,
-      goles: [], tarjetas: [] },
+      local: "#2", visitante: "#7", manual: true, golesLocal: 3, golesVisitante: 1,   // planilla en papel (14/11)
+      veedor: "Trilles", veedorEq: "e7", mvp: "p61",
+      goles: [{ j: "p61", e: "e13" }, { j: "p142", e: "e13" }, { j: "p145", e: "e13" }, { j: "p126", e: "e8" }],
+      tarjetas: [{ j: "p62", e: "e13", t: "A" }, { j: "p124", e: "e8", t: "A" }, { j: "p124", e: "e8", t: "R" }] },
     { id: "m28", fase: "Cuartos Oro", fecha: "2026-11-14", hora: "15:00", cancha: "",
       local: "#3", visitante: "#6", manual: true, golesLocal: 3, golesVisitante: 0,   // planilla en papel (14/11)
       veedor: "Moisés", veedorEq: "e4", mvp: "p96",
