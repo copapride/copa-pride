@@ -15,15 +15,15 @@ CSS = r"""
 :root{--display:'Inter Display','Inter',sans-serif}
 html,body{margin:0;background:#070605}
 body>*:not(#poster){display:none!important}
-#poster{width:1600px;height:1000px;box-sizing:border-box;padding:46px 56px 40px;position:relative;overflow:hidden;display:flex!important;flex-direction:column;gap:22px;
+#poster{width:1600px;height:1000px;box-sizing:border-box;padding:34px 56px 30px;position:relative;overflow:hidden;display:flex!important;flex-direction:column;gap:14px;
   background:radial-gradient(70% 60% at 85% 0%,rgba(var(--glow),.20),transparent 60%),radial-gradient(60% 50% at 0% 100%,rgba(var(--glow),.10),transparent 60%),#0a0908;color:#f5f2ea;font-family:'Inter',sans-serif}
 #poster::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 39px,rgba(255,255,255,.025) 39px 40px);pointer-events:none}
 #poster .franja{position:absolute;left:0;top:0;bottom:0;width:8px;background:linear-gradient(180deg,#e40303,#ff8c00,#ffed00,#008026,#004dff,#750787)}
 .p-cab{display:flex;align-items:center;gap:30px;position:relative;z-index:1}
-.p-cab img{height:118px;width:auto}
+.p-cab img{height:96px;width:auto}
 .p-tit{display:flex;flex-direction:column;gap:6px;border-left:2px solid var(--oro);padding-left:30px}
 .p-k{font-size:15px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--oro-t)}
-.p-h{font-family:'Inter Display';font-weight:900;font-size:76px;line-height:.9;letter-spacing:-.01em;text-transform:uppercase;margin:0;
+.p-h{font-family:'Inter Display';font-weight:900;font-size:64px;line-height:.9;letter-spacing:-.01em;text-transform:uppercase;margin:0;
   background:var(--oro-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .p-s{font-size:19px;color:#cfc9bc}
 .p-s b{color:#f5f2ea}
@@ -66,7 +66,7 @@ async def main():
               P.innerHTML = `<i class="franja"></i><header class="p-cab"><img src="img/logo-copa.png" alt=""><div class="p-tit"><span class="p-k">Copa Pride 2026 · 3ª edición · Eliminatorias</span><h1 class="p-h">Copa ${nombre === 'oro' ? 'Oro' : 'Plata'}</h1><span class="p-s">${sub} · Cuartos, semis, final y 3er puesto</span></div></header>`;
               P.appendChild(br);
               const pie = document.createElement('footer'); pie.className = 'p-pie';
-              pie.innerHTML = `<p><b>Cuartos: sábado 14/11.</b> Canchas a definir. Semis 28/11 · Final y 3er puesto 12/12.</p><div class="der"><span class="lema">Juntxs por el deporte</span><img src="img/liga-pride.png" alt=""></div>`;
+              pie.innerHTML = `<p><b>Semifinales: sábado 28/11.</b> Horarios y canchas a definir. Final y 3er puesto: sábado 12/12.</p><div class="der"><span class="lema">Juntxs por el deporte</span><img src="img/liga-pride.png" alt=""></div>`;
               P.appendChild(pie); document.body.appendChild(P);
               window.dispatchEvent(new Event('resize'));
             }""", [nombre, glow, sub])
