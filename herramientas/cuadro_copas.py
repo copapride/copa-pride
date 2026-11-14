@@ -66,7 +66,7 @@ async def main():
               P.innerHTML = `<i class="franja"></i><header class="p-cab"><img src="img/logo-copa.png" alt=""><div class="p-tit"><span class="p-k">Copa Pride 2026 · 3ª edición · Eliminatorias</span><h1 class="p-h">Copa ${nombre === 'oro' ? 'Oro' : 'Plata'}</h1><span class="p-s">${sub} · Cuartos, semis, final y 3er puesto</span></div></header>`;
               P.appendChild(br);
               const pie = document.createElement('footer'); pie.className = 'p-pie';
-              pie.innerHTML = `<p><b>Semifinales: sábado 28/11.</b> Horarios y canchas a definir. Final y 3er puesto: sábado 12/12.</p><div class="der"><span class="lema">Juntxs por el deporte</span><img src="img/liga-pride.png" alt=""></div>`;
+              pie.innerHTML = `<p><b>Semifinales: sábado 28/11.</b> Plata 14 hs · Oro 15 y 16 hs · canchas a definir. Final y 3er puesto: sábado 12/12.</p><div class="der"><span class="lema">Juntxs por el deporte</span><img src="img/liga-pride.png" alt=""></div>`;
               P.appendChild(pie); document.body.appendChild(P);
               window.dispatchEvent(new Event('resize'));
             }""", [nombre, glow, sub])
